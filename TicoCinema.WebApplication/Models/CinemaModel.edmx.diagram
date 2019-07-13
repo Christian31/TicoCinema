@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="ec4d82dcdc1f46068baa74ecd3ba782d" Name="Diagram1">
+        <EntityTypeShape EntityType="TicoCinemaModel.AudienceClassification" Width="1.5" PointX="0.75" PointY="8" />
+        <EntityTypeShape EntityType="TicoCinemaModel.Cinema" Width="1.5" PointX="3" PointY="1.375" />
+        <EntityTypeShape EntityType="TicoCinemaModel.CinemaSchedule" Width="1.5" PointX="5.25" PointY="1.625" />
+        <EntityTypeShape EntityType="TicoCinemaModel.CinemaScheduleHistory" Width="1.5" PointX="7.5" PointY="1.75" />
+        <EntityTypeShape EntityType="TicoCinemaModel.Food" Width="1.5" PointX="5.75" PointY="10.5" />
+        <EntityTypeShape EntityType="TicoCinemaModel.FoodHistory" Width="1.5" PointX="8" PointY="10" />
+        <EntityTypeShape EntityType="TicoCinemaModel.Movie" Width="1.5" PointX="3" PointY="7.875" />
+        <EntityTypeShape EntityType="TicoCinemaModel.MovieCategory" Width="1.5" PointX="10.75" PointY="7.75" />
+        <EntityTypeShape EntityType="TicoCinemaModel.MovieFormat" Width="1.5" PointX="0.75" PointY="2.875" />
+        <EntityTypeShape EntityType="TicoCinemaModel.MoviePrice" Width="1.5" PointX="3" PointY="4.5" />
+        <EntityTypeShape EntityType="TicoCinemaModel.Sale" Width="1.5" PointX="9.75" PointY="1.25" />
+        <EntityTypeShape EntityType="TicoCinemaModel.SaleDetails" Width="1.5" PointX="12" PointY="1" />
+        <EntityTypeShape EntityType="TicoCinemaModel.User" Width="2" PointX="5.75" PointY="6" />
+        <AssociationConnector Association="TicoCinemaModel.FK_Movie_AudienceClassification" />
+        <AssociationConnector Association="TicoCinemaModel.FK_Cinema_Cinema" />
+        <AssociationConnector Association="TicoCinemaModel.FK_CinemaSchedule_Cinema" />
+        <AssociationConnector Association="TicoCinemaModel.FK_CinemaSchedule_CinemaScheduleHistory" />
+        <AssociationConnector Association="TicoCinemaModel.FK_CinemaSchedule_Movie" />
+        <AssociationConnector Association="TicoCinemaModel.FK_CinemaSchedule_MovieFormat" />
+        <AssociationConnector Association="TicoCinemaModel.FK_Food_FoodHistory" />
+        <AssociationConnector Association="TicoCinemaModel.FK_MoviePrices_MoviePrices" />
+        <AssociationConnector Association="TicoCinemaModel.FK_SaleDetails_Sale" />
+        <EntityTypeShape EntityType="TicoCinemaModel.Parameter" Width="1.5" PointX="10.375" PointY="10.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

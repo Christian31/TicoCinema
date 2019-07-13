@@ -1,0 +1,827 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TicoCinemaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AudienceClassification">
+          <Key>
+            <PropertyRef Name="AudienceClassificationId" />
+          </Key>
+          <Property Name="AudienceClassificationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Acronym" Type="nchar" MaxLength="4" Nullable="false" />
+          <Property Name="Descripcion" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="Restriction" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Cinema">
+          <Key>
+            <PropertyRef Name="CinemaId" />
+          </Key>
+          <Property Name="CinemaId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MovieFormatId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Capacity" Type="int" Nullable="false" />
+          <Property Name="CinemaDesignId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CinemaSchedule">
+          <Key>
+            <PropertyRef Name="CinemaScheduleId" />
+          </Key>
+          <Property Name="CinemaScheduleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CinemaId" Type="int" Nullable="false" />
+          <Property Name="MovieFormatId" Type="int" Nullable="false" />
+          <Property Name="MovieId" Type="int" Nullable="false" />
+          <Property Name="BeginDatetime" Type="datetime" Nullable="false" />
+          <Property Name="FinishDatetime" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CinemaScheduleHistory">
+          <Key>
+            <PropertyRef Name="CinemaScheduleHistoryId" />
+          </Key>
+          <Property Name="CinemaScheduleHistoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CinemaScheduleId" Type="int" Nullable="false" />
+          <Property Name="TicketId" Type="int" Nullable="false" />
+          <Property Name="JsonDetails" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CinemaScheduleState" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="80" Nullable="false" />
+          <Property Name="ModificationDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Food">
+          <Key>
+            <PropertyRef Name="FoodId" />
+          </Key>
+          <Property Name="FoodId" Type="bigint" Nullable="false" />
+          <Property Name="FoodName" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Image" Type="varbinary" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="FoodHistory">
+          <Key>
+            <PropertyRef Name="FoodHistoryId" />
+          </Key>
+          <Property Name="FoodHistoryId" Type="bigint" Nullable="false" />
+          <Property Name="FoodId" Type="bigint" Nullable="false" />
+          <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="QuantityAvailable" Type="int" Nullable="false" />
+          <Property Name="QuantityChanged" Type="int" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" Nullable="false" />
+          <Property Name="ModificationDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="MovieId" />
+          </Key>
+          <Property Name="MovieId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AudienceClassificationId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="ReleaseDate" Type="date" Nullable="false" />
+          <Property Name="DurationTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="CategoriesAssigned" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MovieCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CategoryName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="BitAssigned" Type="bigint" Nullable="false" />
+          <Property Name="Status" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MovieFormat">
+          <Key>
+            <PropertyRef Name="MovieFormatId" />
+          </Key>
+          <Property Name="MovieFormatId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MoviePrice">
+          <Key>
+            <PropertyRef Name="MovieFormatId" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="MovieFormatId" Type="int" Nullable="false" />
+          <Property Name="Price" Type="smallmoney" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Parameter">
+          <Key>
+            <PropertyRef Name="ParamId" />
+          </Key>
+          <Property Name="ParamId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ParamValue" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sale">
+          <Key>
+            <PropertyRef Name="SaleId" />
+          </Key>
+          <Property Name="SaleId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentNumber" Type="bigint" Nullable="false" />
+          <Property Name="UserName" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="RegisterDate" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SaleDetails">
+          <Key>
+            <PropertyRef Name="SaleDetailId" />
+          </Key>
+          <Property Name="SaleDetailId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SaleId" Type="bigint" Nullable="false" />
+          <Property Name="ProductType" Type="int" Nullable="false" />
+          <Property Name="ProductId" Type="bigint" Nullable="false" />
+          <Property Name="ProductHistoryId" Type="bigint" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Price" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Birthdate" Type="date" Nullable="false" />
+          <Property Name="Gender" Type="int" Nullable="false" />
+          <Property Name="CategoryPreferences" Type="bigint" Nullable="false" />
+          <Property Name="Province" Type="int" Nullable="false" />
+          <Property Name="Canton" Type="int" Nullable="false" />
+          <Property Name="District" Type="int" Nullable="false" />
+          <Property Name="Details" Type="nvarchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Cinema_Cinema">
+          <End Role="MovieFormat" Type="Self.MovieFormat" Multiplicity="1" />
+          <End Role="Cinema" Type="Self.Cinema" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MovieFormat">
+              <PropertyRef Name="MovieFormatId" />
+            </Principal>
+            <Dependent Role="Cinema">
+              <PropertyRef Name="MovieFormatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CinemaSchedule_Cinema">
+          <End Role="Cinema" Type="Self.Cinema" Multiplicity="1" />
+          <End Role="CinemaSchedule" Type="Self.CinemaSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cinema">
+              <PropertyRef Name="CinemaId" />
+            </Principal>
+            <Dependent Role="CinemaSchedule">
+              <PropertyRef Name="CinemaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CinemaSchedule_CinemaScheduleHistory">
+          <End Role="CinemaSchedule" Type="Self.CinemaSchedule" Multiplicity="1" />
+          <End Role="CinemaScheduleHistory" Type="Self.CinemaScheduleHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CinemaSchedule">
+              <PropertyRef Name="CinemaScheduleId" />
+            </Principal>
+            <Dependent Role="CinemaScheduleHistory">
+              <PropertyRef Name="CinemaScheduleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CinemaSchedule_Movie">
+          <End Role="Movie" Type="Self.Movie" Multiplicity="1" />
+          <End Role="CinemaSchedule" Type="Self.CinemaSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movie">
+              <PropertyRef Name="MovieId" />
+            </Principal>
+            <Dependent Role="CinemaSchedule">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CinemaSchedule_MovieFormat">
+          <End Role="MovieFormat" Type="Self.MovieFormat" Multiplicity="1" />
+          <End Role="CinemaSchedule" Type="Self.CinemaSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MovieFormat">
+              <PropertyRef Name="MovieFormatId" />
+            </Principal>
+            <Dependent Role="CinemaSchedule">
+              <PropertyRef Name="MovieFormatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Food_FoodHistory">
+          <End Role="Food" Type="Self.Food" Multiplicity="1" />
+          <End Role="FoodHistory" Type="Self.FoodHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food">
+              <PropertyRef Name="FoodId" />
+            </Principal>
+            <Dependent Role="FoodHistory">
+              <PropertyRef Name="FoodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Movie_AudienceClassification">
+          <End Role="AudienceClassification" Type="Self.AudienceClassification" Multiplicity="1" />
+          <End Role="Movie" Type="Self.Movie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AudienceClassification">
+              <PropertyRef Name="AudienceClassificationId" />
+            </Principal>
+            <Dependent Role="Movie">
+              <PropertyRef Name="AudienceClassificationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoviePrices_MoviePrices">
+          <End Role="MovieFormat" Type="Self.MovieFormat" Multiplicity="1" />
+          <End Role="MoviePrice" Type="Self.MoviePrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MovieFormat">
+              <PropertyRef Name="MovieFormatId" />
+            </Principal>
+            <Dependent Role="MoviePrice">
+              <PropertyRef Name="MovieFormatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SaleDetails_Sale">
+          <End Role="Sale" Type="Self.Sale" Multiplicity="1" />
+          <End Role="SaleDetails" Type="Self.SaleDetails" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Sale">
+              <PropertyRef Name="SaleId" />
+            </Principal>
+            <Dependent Role="SaleDetails">
+              <PropertyRef Name="SaleDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TicoCinemaModelStoreContainer">
+          <EntitySet Name="AudienceClassification" EntityType="Self.AudienceClassification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cinema" EntityType="Self.Cinema" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CinemaSchedule" EntityType="Self.CinemaSchedule" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CinemaScheduleHistory" EntityType="Self.CinemaScheduleHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Food" EntityType="Self.Food" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FoodHistory" EntityType="Self.FoodHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Movie" EntityType="Self.Movie" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MovieCategory" EntityType="Self.MovieCategory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MovieFormat" EntityType="Self.MovieFormat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MoviePrice" EntityType="Self.MoviePrice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Parameter" EntityType="Self.Parameter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sale" EntityType="Self.Sale" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SaleDetails" EntityType="Self.SaleDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Cinema_Cinema" Association="Self.FK_Cinema_Cinema">
+            <End Role="MovieFormat" EntitySet="MovieFormat" />
+            <End Role="Cinema" EntitySet="Cinema" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CinemaSchedule_Cinema" Association="Self.FK_CinemaSchedule_Cinema">
+            <End Role="Cinema" EntitySet="Cinema" />
+            <End Role="CinemaSchedule" EntitySet="CinemaSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CinemaSchedule_CinemaScheduleHistory" Association="Self.FK_CinemaSchedule_CinemaScheduleHistory">
+            <End Role="CinemaSchedule" EntitySet="CinemaSchedule" />
+            <End Role="CinemaScheduleHistory" EntitySet="CinemaScheduleHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CinemaSchedule_Movie" Association="Self.FK_CinemaSchedule_Movie">
+            <End Role="Movie" EntitySet="Movie" />
+            <End Role="CinemaSchedule" EntitySet="CinemaSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CinemaSchedule_MovieFormat" Association="Self.FK_CinemaSchedule_MovieFormat">
+            <End Role="MovieFormat" EntitySet="MovieFormat" />
+            <End Role="CinemaSchedule" EntitySet="CinemaSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Food_FoodHistory" Association="Self.FK_Food_FoodHistory">
+            <End Role="Food" EntitySet="Food" />
+            <End Role="FoodHistory" EntitySet="FoodHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Movie_AudienceClassification" Association="Self.FK_Movie_AudienceClassification">
+            <End Role="AudienceClassification" EntitySet="AudienceClassification" />
+            <End Role="Movie" EntitySet="Movie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoviePrices_MoviePrices" Association="Self.FK_MoviePrices_MoviePrices">
+            <End Role="MovieFormat" EntitySet="MovieFormat" />
+            <End Role="MoviePrice" EntitySet="MoviePrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SaleDetails_Sale" Association="Self.FK_SaleDetails_Sale">
+            <End Role="Sale" EntitySet="Sale" />
+            <End Role="SaleDetails" EntitySet="SaleDetails" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TicoCinemaModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AudienceClassification" EntityType="TicoCinemaModel.AudienceClassification" />
+          <EntitySet Name="Cinema" EntityType="TicoCinemaModel.Cinema" />
+          <EntitySet Name="CinemaSchedule" EntityType="TicoCinemaModel.CinemaSchedule" />
+          <EntitySet Name="CinemaScheduleHistory" EntityType="TicoCinemaModel.CinemaScheduleHistory" />
+          <EntitySet Name="Food" EntityType="TicoCinemaModel.Food" />
+          <EntitySet Name="FoodHistory" EntityType="TicoCinemaModel.FoodHistory" />
+          <EntitySet Name="Movie" EntityType="TicoCinemaModel.Movie" />
+          <EntitySet Name="MovieCategory" EntityType="TicoCinemaModel.MovieCategory" />
+          <EntitySet Name="MovieFormat" EntityType="TicoCinemaModel.MovieFormat" />
+          <EntitySet Name="MoviePrice" EntityType="TicoCinemaModel.MoviePrice" />
+          <EntitySet Name="Sale" EntityType="TicoCinemaModel.Sale" />
+          <EntitySet Name="SaleDetails" EntityType="TicoCinemaModel.SaleDetails" />
+          <EntitySet Name="User" EntityType="TicoCinemaModel.User" />
+          <AssociationSet Name="FK_Movie_AudienceClassification" Association="TicoCinemaModel.FK_Movie_AudienceClassification">
+            <End Role="AudienceClassification" EntitySet="AudienceClassification" />
+            <End Role="Movie" EntitySet="Movie" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Cinema_Cinema" Association="TicoCinemaModel.FK_Cinema_Cinema">
+            <End Role="MovieFormat" EntitySet="MovieFormat" />
+            <End Role="Cinema" EntitySet="Cinema" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CinemaSchedule_Cinema" Association="TicoCinemaModel.FK_CinemaSchedule_Cinema">
+            <End Role="Cinema" EntitySet="Cinema" />
+            <End Role="CinemaSchedule" EntitySet="CinemaSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CinemaSchedule_CinemaScheduleHistory" Association="TicoCinemaModel.FK_CinemaSchedule_CinemaScheduleHistory">
+            <End Role="CinemaSchedule" EntitySet="CinemaSchedule" />
+            <End Role="CinemaScheduleHistory" EntitySet="CinemaScheduleHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CinemaSchedule_Movie" Association="TicoCinemaModel.FK_CinemaSchedule_Movie">
+            <End Role="Movie" EntitySet="Movie" />
+            <End Role="CinemaSchedule" EntitySet="CinemaSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CinemaSchedule_MovieFormat" Association="TicoCinemaModel.FK_CinemaSchedule_MovieFormat">
+            <End Role="MovieFormat" EntitySet="MovieFormat" />
+            <End Role="CinemaSchedule" EntitySet="CinemaSchedule" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Food_FoodHistory" Association="TicoCinemaModel.FK_Food_FoodHistory">
+            <End Role="Food" EntitySet="Food" />
+            <End Role="FoodHistory" EntitySet="FoodHistory" />
+          </AssociationSet>
+          <AssociationSet Name="FK_MoviePrices_MoviePrices" Association="TicoCinemaModel.FK_MoviePrices_MoviePrices">
+            <End Role="MovieFormat" EntitySet="MovieFormat" />
+            <End Role="MoviePrice" EntitySet="MoviePrice" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SaleDetails_Sale" Association="TicoCinemaModel.FK_SaleDetails_Sale">
+            <End Role="Sale" EntitySet="Sale" />
+            <End Role="SaleDetails" EntitySet="SaleDetails" />
+          </AssociationSet>
+          <EntitySet Name="Parameter" EntityType="TicoCinemaModel.Parameter" />
+        </EntityContainer>
+        <EntityType Name="AudienceClassification">
+          <Key>
+            <PropertyRef Name="AudienceClassificationId" />
+          </Key>
+          <Property Name="AudienceClassificationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Acronym" Type="String" Nullable="false" MaxLength="4" FixedLength="true" Unicode="true" />
+          <Property Name="Descripcion" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Restriction" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Movie" Relationship="TicoCinemaModel.FK_Movie_AudienceClassification" FromRole="AudienceClassification" ToRole="Movie" />
+        </EntityType>
+        <EntityType Name="Cinema">
+          <Key>
+            <PropertyRef Name="CinemaId" />
+          </Key>
+          <Property Name="CinemaId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MovieFormatId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Capacity" Type="Int32" Nullable="false" />
+          <Property Name="CinemaDesignId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MovieFormat" Relationship="TicoCinemaModel.FK_Cinema_Cinema" FromRole="Cinema" ToRole="MovieFormat" />
+          <NavigationProperty Name="CinemaSchedule" Relationship="TicoCinemaModel.FK_CinemaSchedule_Cinema" FromRole="Cinema" ToRole="CinemaSchedule" />
+        </EntityType>
+        <EntityType Name="CinemaSchedule">
+          <Key>
+            <PropertyRef Name="CinemaScheduleId" />
+          </Key>
+          <Property Name="CinemaScheduleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CinemaId" Type="Int32" Nullable="false" />
+          <Property Name="MovieFormatId" Type="Int32" Nullable="false" />
+          <Property Name="MovieId" Type="Int32" Nullable="false" />
+          <Property Name="BeginDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="FinishDatetime" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Cinema" Relationship="TicoCinemaModel.FK_CinemaSchedule_Cinema" FromRole="CinemaSchedule" ToRole="Cinema" />
+          <NavigationProperty Name="CinemaScheduleHistory" Relationship="TicoCinemaModel.FK_CinemaSchedule_CinemaScheduleHistory" FromRole="CinemaSchedule" ToRole="CinemaScheduleHistory" />
+          <NavigationProperty Name="Movie" Relationship="TicoCinemaModel.FK_CinemaSchedule_Movie" FromRole="CinemaSchedule" ToRole="Movie" />
+          <NavigationProperty Name="MovieFormat" Relationship="TicoCinemaModel.FK_CinemaSchedule_MovieFormat" FromRole="CinemaSchedule" ToRole="MovieFormat" />
+        </EntityType>
+        <EntityType Name="CinemaScheduleHistory">
+          <Key>
+            <PropertyRef Name="CinemaScheduleHistoryId" />
+          </Key>
+          <Property Name="CinemaScheduleHistoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CinemaScheduleId" Type="Int32" Nullable="false" />
+          <Property Name="TicketId" Type="Int32" Nullable="false" />
+          <Property Name="JsonDetails" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CinemaScheduleState" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="80" FixedLength="false" Unicode="true" />
+          <Property Name="ModificationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="CinemaSchedule" Relationship="TicoCinemaModel.FK_CinemaSchedule_CinemaScheduleHistory" FromRole="CinemaScheduleHistory" ToRole="CinemaSchedule" />
+        </EntityType>
+        <EntityType Name="Food">
+          <Key>
+            <PropertyRef Name="FoodId" />
+          </Key>
+          <Property Name="FoodId" Type="Int64" Nullable="false" />
+          <Property Name="FoodName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="Image" Type="Binary" Nullable="false" MaxLength="50" FixedLength="false" />
+          <NavigationProperty Name="FoodHistory" Relationship="TicoCinemaModel.FK_Food_FoodHistory" FromRole="Food" ToRole="FoodHistory" />
+        </EntityType>
+        <EntityType Name="FoodHistory">
+          <Key>
+            <PropertyRef Name="FoodHistoryId" />
+          </Key>
+          <Property Name="FoodHistoryId" Type="Int64" Nullable="false" />
+          <Property Name="FoodId" Type="Int64" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="QuantityAvailable" Type="Int32" Nullable="false" />
+          <Property Name="QuantityChanged" Type="Int32" Nullable="false" />
+          <Property Name="Status" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="ModificationDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Food" Relationship="TicoCinemaModel.FK_Food_FoodHistory" FromRole="FoodHistory" ToRole="Food" />
+        </EntityType>
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="MovieId" />
+          </Key>
+          <Property Name="MovieId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AudienceClassificationId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="ReleaseDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DurationTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="CategoriesAssigned" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AudienceClassification" Relationship="TicoCinemaModel.FK_Movie_AudienceClassification" FromRole="Movie" ToRole="AudienceClassification" />
+          <NavigationProperty Name="CinemaSchedule" Relationship="TicoCinemaModel.FK_CinemaSchedule_Movie" FromRole="Movie" ToRole="CinemaSchedule" />
+        </EntityType>
+        <EntityType Name="MovieCategory">
+          <Key>
+            <PropertyRef Name="CategoryId" />
+          </Key>
+          <Property Name="CategoryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CategoryName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="BitAssigned" Type="Int64" Nullable="false" />
+          <Property Name="Status" Type="Int16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MovieFormat">
+          <Key>
+            <PropertyRef Name="MovieFormatId" />
+          </Key>
+          <Property Name="MovieFormatId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Cinema" Relationship="TicoCinemaModel.FK_Cinema_Cinema" FromRole="MovieFormat" ToRole="Cinema" />
+          <NavigationProperty Name="CinemaSchedule" Relationship="TicoCinemaModel.FK_CinemaSchedule_MovieFormat" FromRole="MovieFormat" ToRole="CinemaSchedule" />
+          <NavigationProperty Name="MoviePrice" Relationship="TicoCinemaModel.FK_MoviePrices_MoviePrices" FromRole="MovieFormat" ToRole="MoviePrice" />
+        </EntityType>
+        <EntityType Name="MoviePrice">
+          <Key>
+            <PropertyRef Name="MovieFormatId" />
+            <PropertyRef Name="Name" />
+          </Key>
+          <Property Name="MovieFormatId" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="10" Scale="4" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="MovieFormat" Relationship="TicoCinemaModel.FK_MoviePrices_MoviePrices" FromRole="MoviePrice" ToRole="MovieFormat" />
+        </EntityType>
+        <EntityType Name="Sale">
+          <Key>
+            <PropertyRef Name="SaleId" />
+          </Key>
+          <Property Name="SaleId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PaymentNumber" Type="Int64" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="RegisterDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="SaleDetails" Relationship="TicoCinemaModel.FK_SaleDetails_Sale" FromRole="Sale" ToRole="SaleDetails" />
+        </EntityType>
+        <EntityType Name="SaleDetails">
+          <Key>
+            <PropertyRef Name="SaleDetailId" />
+          </Key>
+          <Property Name="SaleDetailId" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SaleId" Type="Int64" Nullable="false" />
+          <Property Name="ProductType" Type="Int32" Nullable="false" />
+          <Property Name="ProductId" Type="Int64" Nullable="false" />
+          <Property Name="ProductHistoryId" Type="Int64" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <NavigationProperty Name="Sale" Relationship="TicoCinemaModel.FK_SaleDetails_Sale" FromRole="SaleDetails" ToRole="Sale" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Guid" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Birthdate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Gender" Type="Int32" Nullable="false" />
+          <Property Name="CategoryPreferences" Type="Int64" Nullable="false" />
+          <Property Name="Province" Type="Int32" Nullable="false" />
+          <Property Name="Canton" Type="Int32" Nullable="false" />
+          <Property Name="District" Type="Int32" Nullable="false" />
+          <Property Name="Details" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_Movie_AudienceClassification">
+          <End Type="TicoCinemaModel.AudienceClassification" Role="AudienceClassification" Multiplicity="1" />
+          <End Type="TicoCinemaModel.Movie" Role="Movie" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AudienceClassification">
+              <PropertyRef Name="AudienceClassificationId" />
+            </Principal>
+            <Dependent Role="Movie">
+              <PropertyRef Name="AudienceClassificationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Cinema_Cinema">
+          <End Type="TicoCinemaModel.MovieFormat" Role="MovieFormat" Multiplicity="1" />
+          <End Type="TicoCinemaModel.Cinema" Role="Cinema" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MovieFormat">
+              <PropertyRef Name="MovieFormatId" />
+            </Principal>
+            <Dependent Role="Cinema">
+              <PropertyRef Name="MovieFormatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CinemaSchedule_Cinema">
+          <End Type="TicoCinemaModel.Cinema" Role="Cinema" Multiplicity="1" />
+          <End Type="TicoCinemaModel.CinemaSchedule" Role="CinemaSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cinema">
+              <PropertyRef Name="CinemaId" />
+            </Principal>
+            <Dependent Role="CinemaSchedule">
+              <PropertyRef Name="CinemaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CinemaSchedule_CinemaScheduleHistory">
+          <End Type="TicoCinemaModel.CinemaSchedule" Role="CinemaSchedule" Multiplicity="1" />
+          <End Type="TicoCinemaModel.CinemaScheduleHistory" Role="CinemaScheduleHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CinemaSchedule">
+              <PropertyRef Name="CinemaScheduleId" />
+            </Principal>
+            <Dependent Role="CinemaScheduleHistory">
+              <PropertyRef Name="CinemaScheduleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CinemaSchedule_Movie">
+          <End Type="TicoCinemaModel.Movie" Role="Movie" Multiplicity="1" />
+          <End Type="TicoCinemaModel.CinemaSchedule" Role="CinemaSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Movie">
+              <PropertyRef Name="MovieId" />
+            </Principal>
+            <Dependent Role="CinemaSchedule">
+              <PropertyRef Name="MovieId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CinemaSchedule_MovieFormat">
+          <End Type="TicoCinemaModel.MovieFormat" Role="MovieFormat" Multiplicity="1" />
+          <End Type="TicoCinemaModel.CinemaSchedule" Role="CinemaSchedule" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MovieFormat">
+              <PropertyRef Name="MovieFormatId" />
+            </Principal>
+            <Dependent Role="CinemaSchedule">
+              <PropertyRef Name="MovieFormatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Food_FoodHistory">
+          <End Type="TicoCinemaModel.Food" Role="Food" Multiplicity="1" />
+          <End Type="TicoCinemaModel.FoodHistory" Role="FoodHistory" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Food">
+              <PropertyRef Name="FoodId" />
+            </Principal>
+            <Dependent Role="FoodHistory">
+              <PropertyRef Name="FoodId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_MoviePrices_MoviePrices">
+          <End Type="TicoCinemaModel.MovieFormat" Role="MovieFormat" Multiplicity="1" />
+          <End Type="TicoCinemaModel.MoviePrice" Role="MoviePrice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MovieFormat">
+              <PropertyRef Name="MovieFormatId" />
+            </Principal>
+            <Dependent Role="MoviePrice">
+              <PropertyRef Name="MovieFormatId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SaleDetails_Sale">
+          <End Type="TicoCinemaModel.Sale" Role="Sale" Multiplicity="1" />
+          <End Type="TicoCinemaModel.SaleDetails" Role="SaleDetails" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Sale">
+              <PropertyRef Name="SaleId" />
+            </Principal>
+            <Dependent Role="SaleDetails">
+              <PropertyRef Name="SaleDetailId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Parameter">
+          <Key>
+            <PropertyRef Name="ParamId" />
+          </Key>
+          <Property Name="ParamId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ParamValue" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TicoCinemaModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="AudienceClassification">
+            <EntityTypeMapping TypeName="TicoCinemaModel.AudienceClassification">
+              <MappingFragment StoreEntitySet="AudienceClassification">
+                <ScalarProperty Name="Restriction" ColumnName="Restriction" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Acronym" ColumnName="Acronym" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AudienceClassificationId" ColumnName="AudienceClassificationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cinema">
+            <EntityTypeMapping TypeName="TicoCinemaModel.Cinema">
+              <MappingFragment StoreEntitySet="Cinema">
+                <ScalarProperty Name="CinemaDesignId" ColumnName="CinemaDesignId" />
+                <ScalarProperty Name="Capacity" ColumnName="Capacity" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MovieFormatId" ColumnName="MovieFormatId" />
+                <ScalarProperty Name="CinemaId" ColumnName="CinemaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CinemaSchedule">
+            <EntityTypeMapping TypeName="TicoCinemaModel.CinemaSchedule">
+              <MappingFragment StoreEntitySet="CinemaSchedule">
+                <ScalarProperty Name="FinishDatetime" ColumnName="FinishDatetime" />
+                <ScalarProperty Name="BeginDatetime" ColumnName="BeginDatetime" />
+                <ScalarProperty Name="MovieId" ColumnName="MovieId" />
+                <ScalarProperty Name="MovieFormatId" ColumnName="MovieFormatId" />
+                <ScalarProperty Name="CinemaId" ColumnName="CinemaId" />
+                <ScalarProperty Name="CinemaScheduleId" ColumnName="CinemaScheduleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CinemaScheduleHistory">
+            <EntityTypeMapping TypeName="TicoCinemaModel.CinemaScheduleHistory">
+              <MappingFragment StoreEntitySet="CinemaScheduleHistory">
+                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="CinemaScheduleState" ColumnName="CinemaScheduleState" />
+                <ScalarProperty Name="JsonDetails" ColumnName="JsonDetails" />
+                <ScalarProperty Name="TicketId" ColumnName="TicketId" />
+                <ScalarProperty Name="CinemaScheduleId" ColumnName="CinemaScheduleId" />
+                <ScalarProperty Name="CinemaScheduleHistoryId" ColumnName="CinemaScheduleHistoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Food">
+            <EntityTypeMapping TypeName="TicoCinemaModel.Food">
+              <MappingFragment StoreEntitySet="Food">
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="FoodName" ColumnName="FoodName" />
+                <ScalarProperty Name="FoodId" ColumnName="FoodId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FoodHistory">
+            <EntityTypeMapping TypeName="TicoCinemaModel.FoodHistory">
+              <MappingFragment StoreEntitySet="FoodHistory">
+                <ScalarProperty Name="ModificationDate" ColumnName="ModificationDate" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="QuantityChanged" ColumnName="QuantityChanged" />
+                <ScalarProperty Name="QuantityAvailable" ColumnName="QuantityAvailable" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="FoodId" ColumnName="FoodId" />
+                <ScalarProperty Name="FoodHistoryId" ColumnName="FoodHistoryId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Movie">
+            <EntityTypeMapping TypeName="TicoCinemaModel.Movie">
+              <MappingFragment StoreEntitySet="Movie">
+                <ScalarProperty Name="CategoriesAssigned" ColumnName="CategoriesAssigned" />
+                <ScalarProperty Name="DurationTime" ColumnName="DurationTime" />
+                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="AudienceClassificationId" ColumnName="AudienceClassificationId" />
+                <ScalarProperty Name="MovieId" ColumnName="MovieId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MovieCategory">
+            <EntityTypeMapping TypeName="TicoCinemaModel.MovieCategory">
+              <MappingFragment StoreEntitySet="MovieCategory">
+                <ScalarProperty Name="BitAssigned" ColumnName="BitAssigned" />
+                <ScalarProperty Name="CategoryName" ColumnName="CategoryName" />
+                <ScalarProperty Name="CategoryId" ColumnName="CategoryId" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MovieFormat">
+            <EntityTypeMapping TypeName="TicoCinemaModel.MovieFormat">
+              <MappingFragment StoreEntitySet="MovieFormat">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="MovieFormatId" ColumnName="MovieFormatId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MoviePrice">
+            <EntityTypeMapping TypeName="TicoCinemaModel.MoviePrice">
+              <MappingFragment StoreEntitySet="MoviePrice">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="MovieFormatId" ColumnName="MovieFormatId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sale">
+            <EntityTypeMapping TypeName="TicoCinemaModel.Sale">
+              <MappingFragment StoreEntitySet="Sale">
+                <ScalarProperty Name="RegisterDate" ColumnName="RegisterDate" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="PaymentNumber" ColumnName="PaymentNumber" />
+                <ScalarProperty Name="SaleId" ColumnName="SaleId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SaleDetails">
+            <EntityTypeMapping TypeName="TicoCinemaModel.SaleDetails">
+              <MappingFragment StoreEntitySet="SaleDetails">
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="ProductHistoryId" ColumnName="ProductHistoryId" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="ProductType" ColumnName="ProductType" />
+                <ScalarProperty Name="SaleId" ColumnName="SaleId" />
+                <ScalarProperty Name="SaleDetailId" ColumnName="SaleDetailId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="User">
+            <EntityTypeMapping TypeName="TicoCinemaModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="Details" ColumnName="Details" />
+                <ScalarProperty Name="District" ColumnName="District" />
+                <ScalarProperty Name="Canton" ColumnName="Canton" />
+                <ScalarProperty Name="Province" ColumnName="Province" />
+                <ScalarProperty Name="CategoryPreferences" ColumnName="CategoryPreferences" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Birthdate" ColumnName="Birthdate" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Parameter">
+            <EntityTypeMapping TypeName="TicoCinemaModel.Parameter">
+              <MappingFragment StoreEntitySet="Parameter">
+                <ScalarProperty Name="ParamValue" ColumnName="ParamValue" />
+                <ScalarProperty Name="ParamId" ColumnName="ParamId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

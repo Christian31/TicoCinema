@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System.Threading;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin;
 using Owin;
@@ -10,7 +11,9 @@ namespace TicoCinema.WebApplication
     public partial class Startup
     {
         public void Configuration(IAppBuilder app)
-        {
+        {       
+            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-ES");
+            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
             ConfigureAuth(app);
             CreateRoles();
         }
@@ -40,7 +43,8 @@ namespace TicoCinema.WebApplication
             var user = new ApplicationUser
             {
                 UserName = "admin1@gmail.com",
-                Email = "admin1@gmail.com"
+                Email = "admin1@gmail.com",
+                EmailConfirmed = true
             };
             string defaultPassword = "admin1";
 
@@ -49,6 +53,9 @@ namespace TicoCinema.WebApplication
             {
                 var result1 = userManager.AddToRole(user.Id, "Admin");
             }
+
+            //guest1@gmail.com
+            //Admin123*
         }
     }
 }

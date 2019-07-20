@@ -21,19 +21,6 @@ namespace TicoCinema.WebApplication.Controllers
             return View(moviePrice.ToList());
         }
 
-        // GET: MoviePrices/Details/5
-        public ActionResult Details(int id, string name)
-        {
-            MoviePrice moviePrice = db.MoviePrice.
-                FirstOrDefault(item => item.MovieFormatId == id && item.Name == name);
-
-            if (moviePrice == null)
-            {
-                return HttpNotFound();
-            }
-            return View(moviePrice);
-        }
-
         // GET: MoviePrices/Create
         public ActionResult Create()
         {

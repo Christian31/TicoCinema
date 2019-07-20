@@ -20,9 +20,6 @@
         <th>
             @Html.DisplayNameFor(model => model.Descripcion)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Restriction)
-        </th>
         <th></th>
     </tr>
 
@@ -36,9 +33,6 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Descripcion)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Restriction)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.AudienceClassificationId }) |

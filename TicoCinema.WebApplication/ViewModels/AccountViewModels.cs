@@ -5,23 +5,23 @@ namespace TicoCinema.WebApplication.ViewModels
     public class ForgotViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
     }
 
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "Correo electrónico")]
         [EmailAddress]
         public string Email { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Contraseña")]
         public string Password { get; set; }
 
-        [Display(Name = "Remember me?")]
+        [Display(Name = "Recordarme?")]
         public bool RememberMe { get; set; }
     }
 
@@ -29,50 +29,50 @@ namespace TicoCinema.WebApplication.ViewModels
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "El campo {0} debe de tener almenos {2} caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        [Display(Name = "Contraseña")]
         public string Password { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        [Display(Name = "Confirmar contraseña")]
+        [Compare("Password", ErrorMessage = "La contraseña y la confirmación de la contraseña no coinciden.")]
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [Display(Name = "FirstName")]
+        [Display(Name = "Nombre")]
         public string FirstName { get; set; }
 
         [Required]
-        [Display(Name = "LastName")]
+        [Display(Name = "Apellidos")]
         public string LastName { get; set; }
 
         [Required]
-        [Display(Name = "Birthdate")]
+        [Display(Name = "Fecha de nacimiento")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MMM/yyyy}")]
         public System.DateTime Birthdate { get; set; }
         
-        [Display(Name = "Gender")]
+        [Display(Name = "Género")]
         public Utils.Enums.Gender Gender { get; set; }
 
         [Required]
-        [Display(Name = "Province")]
+        [Display(Name = "Provincia")]
         public int Province { get; set; }
 
         [Required]
-        [Display(Name = "Canton")]
+        [Display(Name = "Cantón")]
         public int Canton { get; set; }
 
         [Required]
-        [Display(Name = "District")]
+        [Display(Name = "Distrito")]
         public int District { get; set; }
 
         [Required]
-        [Display(Name = "Details")]
+        [Display(Name = "Detalle de dirección")]
         public string Details { get; set; }
     }
 
@@ -80,7 +80,7 @@ namespace TicoCinema.WebApplication.ViewModels
     {
         [Required]
         [EmailAddress]
-        [Display(Name = "Email")]
+        [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
     }
 }

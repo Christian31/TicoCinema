@@ -27,10 +27,39 @@
                         {
                             displayPublicOptions = false;
                             <li>@Html.ActionLink("Usuarios", "Index", "Users")</li>
-                            <li>@Html.ActionLink("Formatos", "Index", "MovieFormats")</li>
-                            <li>@Html.ActionLink("Precios", "Index", "MoviePrices")</li>
-                            <li>@Html.ActionLink("Categorias", "Index", "MovieCategories")</li>
-                            <li>@Html.ActionLink("Clasificación de audiencia", "Index", "AudienceClassifications")</li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Configuración de cine
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Formatos", "Index", "MovieFormats")</li>
+                                    <li>@Html.ActionLink("Categorias", "Index", "MovieCategories")</li>
+                                    <li>@Html.ActionLink("Clasificación de audiencia", "Index", "AudienceClassifications")</li>
+                                    <li>@Html.ActionLink("Salas", "Index", "Cinemas")</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Películas
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Registro", "Index", "Movies")</li>
+                                    <li>@Html.ActionLink("Precios", "Index", "MoviePrices")</li>
+                                    <li>@Html.ActionLink("Inventario", "", "")</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                    Comidas
+                                    <span class="caret"></span>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>@Html.ActionLink("Registro", "Index", "Foods")</li>
+                                    <li>@Html.ActionLink("Inventario", "", "")</li>
+                                </ul>
+                            </li>
                         }
                         if (User.IsInRole("Guest"))
                         {

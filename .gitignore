@@ -259,3 +259,4 @@ paket-files/
 # Python Tools for Visual Studio (PTVS)
 __pycache__/
 *.pyc
+/TicoCinema.WebApplication/Images/Food/ver19071911373932.PNG

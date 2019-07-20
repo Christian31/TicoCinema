@@ -26,6 +26,7 @@ namespace TicoCinema.WebApplication.Models
         public System.DateTime ReleaseDate { get; set; }
         public System.TimeSpan DurationTime { get; set; }
         public int CategoriesAssigned { get; set; }
+        public string ImagePath { get; set; }
     
         public virtual AudienceClassification AudienceClassification { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

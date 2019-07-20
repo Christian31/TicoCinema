@@ -20,21 +20,6 @@ namespace TicoCinema.WebApplication.Controllers
             return View(categoriesActive);
         }
 
-        // GET: MovieCategories/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            MovieCategory movieCategory = db.MovieCategory.Find(id);
-            if (movieCategory == null)
-            {
-                return HttpNotFound();
-            }
-            return View(movieCategory);
-        }
-
         // GET: MovieCategories/Create
         public ActionResult Create()
         {

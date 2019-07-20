@@ -22,7 +22,8 @@ namespace TicoCinema.WebApplication.Models
     
         public long FoodId { get; set; }
         public string FoodName { get; set; }
-        public byte[] Image { get; set; }
+        public string ImagePath { get; set; }
+        public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FoodHistory> FoodHistory { get; set; }

@@ -1,4 +1,4 @@
-﻿@model TicoCinema.WebApplication.Models.User
+﻿@model TicoCinema.WebApplication.ViewModels.RegisterUserViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -27,6 +27,14 @@
         </dd>
 
         <dt>
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.Birthdate)
         </dt>
 
@@ -43,11 +51,27 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CategoryPreferences)
+            @Html.DisplayNameFor(model => model.ProvinceName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CategoryPreferences)
+            @Html.DisplayFor(model => model.ProvinceName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CantonName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CantonName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DistrictName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DistrictName)
         </dd>
 
         <dt>

@@ -1,4 +1,5 @@
-﻿@model TicoCinema.WebApplication.Models.User
+﻿@using TicoCinema.WebApplication.Utils
+@model TicoCinema.WebApplication.ViewModels.RegisterUserViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -7,51 +8,67 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>User</h4>
         <hr />
-        @Html.ValidationSummary(true)
-        <div class="form-group">
-            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.FirstName)
-                @Html.ValidationMessageFor(model => model.FirstName)
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+
+        <div class="form-group col-md-6">
+            @Html.LabelFor(m => m.FirstName, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.LastName)
-                @Html.ValidationMessageFor(model => model.LastName)
+        <div class="form-group col-md-6">
+            @Html.LabelFor(m => m.LastName, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Birthdate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Birthdate)
-                @Html.ValidationMessageFor(model => model.Birthdate)
+        <div class="form-group col-md-6">
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Gender)
-                @Html.ValidationMessageFor(model => model.Gender)
+        <div class="form-group col-md-6">
+            @Html.LabelFor(m => m.Birthdate, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextBoxFor(m => m.Birthdate, new { @class = "form-control datepicker" })
             </div>
         </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CategoryPreferences, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CategoryPreferences)
-                @Html.ValidationMessageFor(model => model.CategoryPreferences)
+        <div class="form-group col-md-6">
+            @Html.LabelFor(m => m.Gender, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.DropDownListFor(m => m.Gender, TicoCinema.WebApplication.Utils.Enums.Gender.Otro.ToSelectList(), new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            @Html.LabelFor(m => m.Province, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.DropDownListFor(m => m.Province, (IEnumerable<SelectListItem>)ViewBag.Provinces, new { @class = "form-control", @onchange = "GetCantonsByProvinceId()" })
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            @Html.LabelFor(m => m.Canton, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.DropDownListFor(m => m.Canton, new List<SelectListItem>(), new { @class = "form-control", @onchange = "GetDistrictsByCantonId()" })
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            @Html.LabelFor(m => m.District, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.DropDownListFor(m => m.District, new List<SelectListItem>(), new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            @Html.LabelFor(m => m.Details, new { @class = "col-md-4 control-label" })
+            <div class="col-md-8">
+                @Html.TextAreaFor(m => m.Details, new { @class = "form-control" })
             </div>
         </div>
 
@@ -69,4 +86,11 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/Users.js");
+
+    <script type="text/javascript">
+        $('.datepicker').datepicker();
+        GetCantonsByProvinceId();
+        GetDistrictsByCantonId();
+    </script>
 }

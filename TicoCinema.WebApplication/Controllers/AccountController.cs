@@ -96,8 +96,6 @@ namespace TicoCinema.WebApplication.Controllers
         public ActionResult Register()
         {
             ViewBag.Provinces = GetProvinces();
-            ViewBag.Cantons = GetCantonsByProvinceId(1);
-            ViewBag.Districts = GetDistrictsByCantonId(101);
 
             return View();
         }
@@ -232,37 +230,6 @@ namespace TicoCinema.WebApplication.Controllers
             }).ToList();
 
             return provinceListItems;
-        }
-
-        private IEnumerable<SelectListItem> GetCantonsByProvinceId(int provinceId)
-        {
-            LoadDirectionsParameter();
-            List<Province> provinces = (List<Province>)HttpContext.GetValuesFromCache(cacheDirectionKey);
-            List<Canton> cantons = provinces.FirstOrDefault(item => item.IdProvince == provinceId).Cantons;
-
-            IEnumerable<SelectListItem> cantonListItems = (from item in cantons select new SelectListItem
-            {
-                Value = item.IdCanton.ToString(),
-                Text = item.CantonName.ToString()
-            }).ToList();
-
-            return cantonListItems;
-        }
-
-        private IEnumerable<SelectListItem> GetDistrictsByCantonId(int cantonId)
-        {
-            LoadDirectionsParameter();
-            List<Province> provinces = (List<Province>)HttpContext.GetValuesFromCache(cacheDirectionKey);
-            Canton canton = provinces.SelectMany(item => item.Cantons).ToList().
-                FirstOrDefault(item => item.IdCanton == cantonId);
-
-            IEnumerable<SelectListItem> districtListItems = (from item in canton.Districts select new SelectListItem
-            {
-                Value = item.IdDistrict.ToString(),
-                Text = item.DistrictName.ToString()
-            }).ToList();
-
-            return districtListItems;
         }
 
         private void LoadDirectionsParameter()

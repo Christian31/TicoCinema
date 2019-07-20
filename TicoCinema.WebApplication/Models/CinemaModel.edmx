@@ -32,7 +32,7 @@
           <Property Name="CinemaScheduleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CinemaId" Type="int" Nullable="false" />
           <Property Name="MovieFormatId" Type="int" Nullable="false" />
-          <Property Name="MovieId" Type="int" Nullable="false" />
+          <Property Name="MovieId" Type="bigint" Nullable="false" />
           <Property Name="BeginDatetime" Type="datetime" Nullable="false" />
           <Property Name="FinishDatetime" Type="datetime" Nullable="false" />
         </EntityType>
@@ -53,15 +53,16 @@
           <Key>
             <PropertyRef Name="FoodId" />
           </Key>
-          <Property Name="FoodId" Type="bigint" Nullable="false" />
+          <Property Name="FoodId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FoodName" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="Image" Type="varbinary" MaxLength="50" Nullable="false" />
+          <Property Name="ImagePath" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="250" Nullable="false" />
         </EntityType>
         <EntityType Name="FoodHistory">
           <Key>
             <PropertyRef Name="FoodHistoryId" />
           </Key>
-          <Property Name="FoodHistoryId" Type="bigint" Nullable="false" />
+          <Property Name="FoodHistoryId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FoodId" Type="bigint" Nullable="false" />
           <Property Name="Price" Type="money" Nullable="false" />
           <Property Name="QuantityAvailable" Type="int" Nullable="false" />
@@ -75,11 +76,12 @@
           <Key>
             <PropertyRef Name="MovieId" />
           </Key>
-          <Property Name="MovieId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MovieId" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AudienceClassificationId" Type="int" Nullable="false" />
           <Property Name="Name" Type="nvarchar" MaxLength="200" Nullable="false" />
           <Property Name="ReleaseDate" Type="date" Nullable="false" />
           <Property Name="DurationTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="ImagePath" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CategoriesAssigned" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="MovieCategory">
@@ -424,8 +426,9 @@
           </Key>
           <Property Name="FoodId" Type="Int64" Nullable="false" />
           <Property Name="FoodName" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
-          <Property Name="Image" Type="Binary" Nullable="false" MaxLength="50" FixedLength="false" />
           <NavigationProperty Name="FoodHistory" Relationship="TicoCinemaModel.FK_Food_FoodHistory" FromRole="Food" ToRole="FoodHistory" />
+          <Property Name="ImagePath" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="FoodHistory">
           <Key>
@@ -454,6 +457,7 @@
           <Property Name="CategoriesAssigned" Type="Int32" Nullable="false" />
           <NavigationProperty Name="AudienceClassification" Relationship="TicoCinemaModel.FK_Movie_AudienceClassification" FromRole="Movie" ToRole="AudienceClassification" />
           <NavigationProperty Name="CinemaSchedule" Relationship="TicoCinemaModel.FK_CinemaSchedule_Movie" FromRole="Movie" ToRole="CinemaSchedule" />
+          <Property Name="ImagePath" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="MovieCategory">
           <Key>
@@ -694,7 +698,8 @@
           <EntitySetMapping Name="Food">
             <EntityTypeMapping TypeName="TicoCinemaModel.Food">
               <MappingFragment StoreEntitySet="Food">
-                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
                 <ScalarProperty Name="FoodName" ColumnName="FoodName" />
                 <ScalarProperty Name="FoodId" ColumnName="FoodId" />
               </MappingFragment>
@@ -718,6 +723,7 @@
           <EntitySetMapping Name="Movie">
             <EntityTypeMapping TypeName="TicoCinemaModel.Movie">
               <MappingFragment StoreEntitySet="Movie">
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
                 <ScalarProperty Name="CategoriesAssigned" ColumnName="CategoriesAssigned" />
                 <ScalarProperty Name="DurationTime" ColumnName="DurationTime" />
                 <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />

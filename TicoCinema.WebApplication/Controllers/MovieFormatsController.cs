@@ -20,21 +20,6 @@ namespace TicoCinema.WebApplication.Controllers
             return View(db.MovieFormat.ToList());
         }
 
-        // GET: MovieFormats/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            MovieFormat movieFormat = db.MovieFormat.Find(id);
-            if (movieFormat == null)
-            {
-                return HttpNotFound();
-            }
-            return View(movieFormat);
-        }
-
         // GET: MovieFormats/Create
         public ActionResult Create()
         {

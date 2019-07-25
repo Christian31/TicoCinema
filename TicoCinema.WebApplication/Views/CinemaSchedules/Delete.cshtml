@@ -1,0 +1,64 @@
+﻿@model TicoCinema.WebApplication.Models.CinemaSchedule
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>CinemaSchedule</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BeginDatetime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BeginDatetime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FinishDatetime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FinishDatetime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cinema.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cinema.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Movie.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Movie.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MovieFormat.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MovieFormat.Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

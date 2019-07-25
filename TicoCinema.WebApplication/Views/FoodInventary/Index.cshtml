@@ -1,0 +1,75 @@
+﻿@model IEnumerable<TicoCinema.WebApplication.Models.FoodHistory>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QuantityAvailable)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.QuantityChanged)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Status)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModificationDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Food.FoodName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.QuantityAvailable)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.QuantityChanged)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Status)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UserName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ModificationDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Food.FoodName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.FoodHistoryId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.FoodHistoryId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.FoodHistoryId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -11,7 +11,8 @@ namespace TicoCinema.WebApplication.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Movie
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,11 +22,23 @@ namespace TicoCinema.WebApplication.Models
         }
     
         public int MovieId { get; set; }
+
+        [Display(Name = "Audiencia permitida")]
         public int AudienceClassificationId { get; set; }
+
+        [Display(Name = "Nombre")]
         public string Name { get; set; }
+
+        [Display(Name = "Fecha de estreno")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MMM/yyyy}")]
         public System.DateTime ReleaseDate { get; set; }
+
+        [Display(Name = "Duración")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MMM/yyyy}")]
         public System.TimeSpan DurationTime { get; set; }
+
         public int CategoriesAssigned { get; set; }
+
         public string ImagePath { get; set; }
     
         public virtual AudienceClassification AudienceClassification { get; set; }

@@ -15,60 +15,69 @@
     <div class="form-horizontal">
         <h4>User</h4>
         <hr />
-        @Html.ValidationSummary("", new { @class = "text-danger" })
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group col-md-6">
             @Html.LabelFor(m => m.FirstName, new { @class = "col-md-4 control-label" })
             <div class="col-md-8">
                 @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group col-md-6">
             @Html.LabelFor(m => m.LastName, new { @class = "col-md-4 control-label" })
             <div class="col-md-8">
                 @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group col-md-6">
             @Html.LabelFor(m => m.Email, new { @class = "col-md-4 control-label" })
             <div class="col-md-8">
                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group col-md-6">
             @Html.LabelFor(m => m.Birthdate, new { @class = "col-md-4 control-label" })
             <div class="col-md-8">
                 @Html.TextBoxFor(m => m.Birthdate, new { @class = "form-control datepicker" })
+                @Html.ValidationMessageFor(m => m.Birthdate, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group col-md-6">
             @Html.LabelFor(m => m.Gender, new { @class = "col-md-4 control-label" })
             <div class="col-md-8">
                 @Html.DropDownListFor(m => m.Gender, TicoCinema.WebApplication.Utils.Enums.Gender.Otro.ToSelectList(), new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Gender, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group col-md-6">
             @Html.LabelFor(m => m.Province, new { @class = "col-md-4 control-label" })
             <div class="col-md-8">
                 @Html.DropDownListFor(m => m.Province, (IEnumerable<SelectListItem>)ViewBag.Provinces, new { @class = "form-control", @onchange = "GetCantonsByProvinceId()" })
+                @Html.ValidationMessageFor(m => m.Province, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group col-md-6">
             @Html.LabelFor(m => m.Canton, new { @class = "col-md-4 control-label" })
             <div class="col-md-8">
                 @Html.DropDownListFor(m => m.Canton, new List<SelectListItem>(), new { @class = "form-control", @onchange = "GetDistrictsByCantonId()" })
+                @Html.ValidationMessageFor(m => m.Canton, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group col-md-6">
             @Html.LabelFor(m => m.District, new { @class = "col-md-4 control-label" })
             <div class="col-md-8">
                 @Html.DropDownListFor(m => m.District, new List<SelectListItem>(), new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.District, "", new { @class = "text-danger" })
             </div>
         </div>
         <div class="form-group col-md-6">
             @Html.LabelFor(m => m.Details, new { @class = "col-md-4 control-label" })
             <div class="col-md-8">
                 @Html.TextAreaFor(m => m.Details, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Details, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -89,7 +98,11 @@
     @Scripts.Render("~/Scripts/Users.js");
 
     <script type="text/javascript">
-        $('.datepicker').datepicker();
+
+        $('.datepicker').datepicker({
+            todayHighlight: true
+        });
+
         GetCantonsByProvinceId();
         GetDistrictsByCantonId();
     </script>

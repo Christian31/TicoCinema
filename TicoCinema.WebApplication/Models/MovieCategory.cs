@@ -11,11 +11,16 @@ namespace TicoCinema.WebApplication.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class MovieCategory
     {
         public int CategoryId { get; set; }
+
+        [Required]
+        [Display(Name = "Nombre de categoria")]
         public string CategoryName { get; set; }
+
         public long BitAssigned { get; set; }
         public short Status { get; set; }
     }

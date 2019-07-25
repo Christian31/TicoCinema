@@ -9,9 +9,8 @@
 
 namespace TicoCinema.WebApplication.Models
 {
-    using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations.Schema;
+    using System.ComponentModel.DataAnnotations;
 
     public partial class AudienceClassification
     {
@@ -22,9 +21,17 @@ namespace TicoCinema.WebApplication.Models
         }
     
         public int AudienceClassificationId { get; set; }
+        
+        [Display(Name = "Nombre de audiencia")]
         public string Name { get; set; }
+        
+        [Display(Name = "Acrónimo")]
         public string Acronym { get; set; }
+        
+        [Display(Name = "Descripción")]
         public string Descripcion { get; set; }
+        
+        [Display(Name = "Restricción")]
         public int Restriction { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

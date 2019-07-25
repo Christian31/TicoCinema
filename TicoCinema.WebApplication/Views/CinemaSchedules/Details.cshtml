@@ -1,0 +1,58 @@
+﻿@model TicoCinema.WebApplication.Models.CinemaSchedule
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CinemaSchedule</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BeginDatetime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BeginDatetime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FinishDatetime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FinishDatetime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cinema.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cinema.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Movie.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Movie.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MovieFormat.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MovieFormat.Name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CinemaScheduleId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

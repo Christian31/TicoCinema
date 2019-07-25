@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Web.Mvc;
 using TicoCinema.WebApplication.Models;
+using TicoCinema.WebApplication.ViewModels;
 
 namespace TicoCinema.WebApplication.Controllers
 {
@@ -38,15 +39,14 @@ namespace TicoCinema.WebApplication.Controllers
         }
 
         // POST: AudienceClassifications/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "AudienceClassificationId,Name,Acronym,Descripcion,Restriction")] AudienceClassification audienceClassification)
+        public ActionResult Create([Bind(Include = "AudienceClassificationId,Name,Acronym,Descripcion,Restriction")] RegisterAudienceClassificationViewModel audienceClassification)
         {
             if (ModelState.IsValid)
             {
-                db.AudienceClassification.Add(audienceClassification);
+                AudienceClassification audience = ConvertViewModelToAudience(audienceClassification);
+                db.AudienceClassification.Add(audience);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -66,19 +66,20 @@ namespace TicoCinema.WebApplication.Controllers
             {
                 return HttpNotFound();
             }
-            return View(audienceClassification);
+
+            RegisterAudienceClassificationViewModel audience = ConvertAudienceToViewModel(audienceClassification);
+            return View(audience);
         }
 
         // POST: AudienceClassifications/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "AudienceClassificationId,Name,Acronym,Descripcion,Restriction")] AudienceClassification audienceClassification)
+        public ActionResult Edit([Bind(Include = "AudienceClassificationId,Name,Acronym,Descripcion,Restriction")] RegisterAudienceClassificationViewModel audienceClassification)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(audienceClassification).State = EntityState.Modified;
+                AudienceClassification audience = ConvertViewModelToAudience(audienceClassification);
+                db.Entry(audience).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -118,6 +119,45 @@ namespace TicoCinema.WebApplication.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private AudienceClassification ConvertViewModelToAudience(RegisterAudienceClassificationViewModel audienceViewModel)
+        {
+            AudienceClassification audience = db.AudienceClassification.Find(audienceViewModel.AudienceClassificationId);
+            int.TryParse(audienceViewModel.Restriction, out int audienceRestriction);
+            if (audience == null)
+            {
+                audience = new AudienceClassification
+                {
+                    Acronym = audienceViewModel.Acronym,
+                    AudienceClassificationId = audienceViewModel.AudienceClassificationId,
+                    Descripcion = audienceViewModel.Descripcion,
+                    Name = audienceViewModel.Name,
+                    Restriction = audienceRestriction
+                };
+            }
+            else
+            {
+                audience.Acronym = audienceViewModel.Acronym;
+                audience.AudienceClassificationId = audienceViewModel.AudienceClassificationId;
+                audience.Descripcion = audienceViewModel.Descripcion;
+                audience.Name = audienceViewModel.Name;
+                audience.Restriction = audienceRestriction;
+            }
+
+            return audience;
+        }
+
+        private RegisterAudienceClassificationViewModel ConvertAudienceToViewModel(AudienceClassification audience)
+        {
+            return new RegisterAudienceClassificationViewModel
+            {
+                Acronym = audience.Acronym,
+                AudienceClassificationId = audience.AudienceClassificationId,
+                Descripcion = audience.Descripcion,
+                Name = audience.Name,
+                Restriction = audience.Restriction.ToString()
+            };
         }
     }
 }

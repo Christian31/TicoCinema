@@ -4,19 +4,19 @@ namespace TicoCinema.WebApplication.ViewModels
 {
     public class ForgotViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
     }
 
     public class LoginViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         [Display(Name = "Correo electrónico")]
         [EmailAddress]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
         public string Password { get; set; }
@@ -27,12 +27,12 @@ namespace TicoCinema.WebApplication.ViewModels
 
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         [EmailAddress]
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         [StringLength(100, ErrorMessage = "El campo {0} debe de tener almenos {2} caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
@@ -43,15 +43,15 @@ namespace TicoCinema.WebApplication.ViewModels
         [Compare("Password", ErrorMessage = "La contraseña y la confirmación de la contraseña no coinciden.")]
         public string ConfirmPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         [Display(Name = "Nombre")]
         public string FirstName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         [Display(Name = "Apellidos")]
         public string LastName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         [Display(Name = "Fecha de nacimiento")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd/MMM/yyyy}")]
         public System.DateTime Birthdate { get; set; }

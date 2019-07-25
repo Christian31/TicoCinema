@@ -1,4 +1,4 @@
-﻿@model TicoCinema.WebApplication.Models.Movie
+﻿@model TicoCinema.WebApplication.ViewModels.MovieViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -35,27 +35,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CategoriesAssigned)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.CategoriesAssigned)
-        </dd>
-
-        <dt>
             @Html.DisplayNameFor(model => model.ImagePath)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.ImagePath)
+            <img src="@Url.Content(Model.ImagePath)" alt="Image" />
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.AudienceClassification.Name)
+            @Html.DisplayNameFor(model => model.AudienceClassificationName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.AudienceClassification.Name)
+            @Html.DisplayFor(model => model.AudienceClassificationName)
         </dd>
 
     </dl>

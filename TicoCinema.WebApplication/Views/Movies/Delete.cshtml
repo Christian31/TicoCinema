@@ -1,4 +1,4 @@
-﻿@model TicoCinema.WebApplication.Models.Movie
+﻿@model TicoCinema.WebApplication.ViewModels.MovieViewModel
 
 @{
     ViewBag.Title = "Delete";
@@ -52,11 +52,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.AudienceClassification.Name)
+            @Html.DisplayNameFor(model => model.AudienceClassificationName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.AudienceClassification.Name)
+            @Html.DisplayFor(model => model.AudienceClassificationName)
         </dd>
 
     </dl>

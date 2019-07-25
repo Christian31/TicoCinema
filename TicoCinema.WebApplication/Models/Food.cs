@@ -11,7 +11,8 @@ namespace TicoCinema.WebApplication.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Food
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,8 +22,14 @@ namespace TicoCinema.WebApplication.Models
         }
     
         public long FoodId { get; set; }
+
+        [Display(Name = "Nombre de comida")]
         public string FoodName { get; set; }
+
+        [Display(Name = "Imagen")]
         public string ImagePath { get; set; }
+
+        [Display(Name = "Descripción")]
         public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

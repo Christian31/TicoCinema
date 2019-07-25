@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TicoCinema.WebApplication.Models;
+using TicoCinema.WebApplication.ViewModels;
 
 namespace TicoCinema.WebApplication.Controllers
 {
@@ -33,11 +34,12 @@ namespace TicoCinema.WebApplication.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "MovieFormatId,Price,Name")] MoviePrice moviePrice)
+        public ActionResult Create([Bind(Include = "MovieFormatId,Price,Name")] RegisterMoviePriceViewModel moviePrice)
         {
             if (ModelState.IsValid)
             {
-                db.MoviePrice.Add(moviePrice);
+                MoviePrice moviePricedb = ConvertViewModelToMoviePrice(moviePrice);
+                db.MoviePrice.Add(moviePricedb);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -55,8 +57,10 @@ namespace TicoCinema.WebApplication.Controllers
             {
                 return HttpNotFound();
             }
+
+            RegisterMoviePriceViewModel moviePriceViewModel = ConvertMoviePriceToViewModel(moviePrice);
             ViewBag.MovieFormatId = new SelectList(db.MovieFormat, "MovieFormatId", "Name", moviePrice.MovieFormatId);
-            return View(moviePrice);
+            return View(moviePriceViewModel);
         }
 
         // POST: MoviePrices/Edit/5
@@ -64,14 +68,16 @@ namespace TicoCinema.WebApplication.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "MovieFormatId,Price,Name")] MoviePrice moviePrice)
+        public ActionResult Edit([Bind(Include = "MovieFormatId,Price,Name")] RegisterMoviePriceViewModel moviePrice)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(moviePrice).State = EntityState.Modified;
+                MoviePrice moviePricedb = ConvertViewModelToMoviePrice(moviePrice);
+                db.Entry(moviePricedb).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+
             ViewBag.MovieFormatId = new SelectList(db.MovieFormat, "MovieFormatId", "Name", moviePrice.MovieFormatId);
             return View(moviePrice);
         }
@@ -107,6 +113,39 @@ namespace TicoCinema.WebApplication.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        private MoviePrice ConvertViewModelToMoviePrice(RegisterMoviePriceViewModel moviePriceViewModel)
+        {
+            MoviePrice moviePrice = db.MoviePrice.
+                FirstOrDefault(item => item.MovieFormatId == moviePriceViewModel.MovieFormatId && 
+                item.Name == moviePriceViewModel.Name);
+            decimal.TryParse(moviePriceViewModel.Price, out decimal price);
+            if (moviePrice == null)
+            {
+                moviePrice = new MoviePrice
+                {
+                    MovieFormatId = moviePriceViewModel.MovieFormatId,
+                    Name = moviePriceViewModel.Name,
+                    Price = price
+                };
+            }
+            else
+            {
+                moviePrice.Price = price;
+            }
+
+            return moviePrice;
+        }
+
+        private RegisterMoviePriceViewModel ConvertMoviePriceToViewModel(MoviePrice moviePrice)
+        {
+            return new RegisterMoviePriceViewModel
+            {
+                MovieFormatId = moviePrice.MovieFormatId,
+                Price = moviePrice.Price.ToString(),
+                Name = moviePrice.Name
+            };
         }
     }
 }

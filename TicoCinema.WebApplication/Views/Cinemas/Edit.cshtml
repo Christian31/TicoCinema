@@ -15,13 +15,14 @@
     <div class="form-horizontal">
         <h4>Cinema</h4>
         <hr />
-        @Html.ValidationSummary("", new { @class = "text-danger" })
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.CinemaId)
 
         <div class="form-group">
             @Html.LabelFor(model => model.MovieFormatId, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.DropDownListFor(m => m.MovieFormatId, (IEnumerable<SelectListItem>)ViewBag.MovieFormats, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.MovieFormatId, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -29,6 +30,7 @@
             @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -36,6 +38,7 @@
             @Html.LabelFor(model => model.Capacity, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.TextBoxFor(model => model.Capacity, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Capacity, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -43,6 +46,7 @@
             @Html.LabelFor(m => m.CinemaDesignId, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
                 @Html.DropDownListFor(m => m.CinemaDesignId, Model.CinemaDesignId.ToSelectList(), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CinemaDesignId, "", new { @class = "text-danger" })
             </div>
         </div>
 

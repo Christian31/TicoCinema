@@ -12,8 +12,8 @@ namespace TicoCinema.WebApplication
     {
         public void Configuration(IAppBuilder app)
         {       
-            Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-ES");
-            Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
+            //Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("es-ES");
+            //Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
             ConfigureAuth(app);
             CreateRoles();
         }

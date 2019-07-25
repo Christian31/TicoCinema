@@ -1,5 +1,4 @@
 ﻿using System.Data.Entity;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -47,6 +46,15 @@ namespace TicoCinema.WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(RegisterFoodViewModel food)
         {
+            if (food.UploadedFile == null)
+            {
+                ModelState.AddModelError("UploadedFile", "El campo Imagen es requerido.");
+            }
+            else if (!FileManager.FileHasValidTypeForImages(food.UploadedFile))
+            {
+                ModelState.AddModelError("UploadedFile", "El campo Imagen permite archivos únicamente con formato JPG y PNG.");
+            }
+
             if (ModelState.IsValid)
             {
                 food.ImagePath = FileManager.SaveFoodImage(food.FoodName, food.UploadedFile);
@@ -71,7 +79,8 @@ namespace TicoCinema.WebApplication.Controllers
             {
                 return HttpNotFound();
             }
-            return View(food);
+            RegisterFoodViewModel foodViewModel = ConvertFoodToViewModel(food);
+            return View(foodViewModel);
         }
 
         // POST: Foods/Edit/5
@@ -79,12 +88,17 @@ namespace TicoCinema.WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(RegisterFoodViewModel food)
         {
+            if (food.UploadedFile != null && !FileManager.FileHasValidTypeForImages(food.UploadedFile))
+            {
+                ModelState.AddModelError("UploadedFile", "El campo Imagen permite archivos únicamente con formato JPG y PNG.");
+            }
+
             if (ModelState.IsValid)
             {
                 food.ImagePath = FileManager.ReplaceFoodImage(food.FoodName, food.UploadedFile, food.ImagePath);
                 Food dbFood = ConvertViewModelToFood(food);
 
-                db.Entry(food).State = EntityState.Modified;
+                db.Entry(dbFood).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -116,6 +130,8 @@ namespace TicoCinema.WebApplication.Controllers
             Food food = db.Food.Find(id);
             db.Food.Remove(food);
             db.SaveChanges();
+            FileManager.DeleteFoodImage(food.ImagePath);
+
             return RedirectToAction("Index");
         }
 
@@ -150,6 +166,17 @@ namespace TicoCinema.WebApplication.Controllers
             }
 
             return food;
+        }
+
+        private RegisterFoodViewModel ConvertFoodToViewModel(Food food)
+        {
+            return new RegisterFoodViewModel
+            {
+                Description = food.Description,
+                FoodId = food.FoodId,
+                FoodName = food.FoodName,
+                ImagePath = food.ImagePath
+            };
         }
     }
 }

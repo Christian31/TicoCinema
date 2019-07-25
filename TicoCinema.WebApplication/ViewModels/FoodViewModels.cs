@@ -16,8 +16,7 @@ namespace TicoCinema.WebApplication.ViewModels
         public string Description { get; set; }
 
         public string ImagePath { get; set; }
-
-        [Required]
+        
         [Display(Name = "Imagen")]
         public HttpPostedFileBase UploadedFile { get; set; }
     }

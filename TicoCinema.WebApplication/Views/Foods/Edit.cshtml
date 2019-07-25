@@ -7,37 +7,38 @@
 <h2>Edit</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Edit", "Foods", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
-    
+
 <div class="form-horizontal">
     <h4>Food</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     @Html.HiddenFor(model => model.FoodId)
+    @Html.HiddenFor(model => model.ImagePath)
 
     <div class="form-group">
         @Html.LabelFor(model => model.FoodName, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.FoodName)
-            @Html.ValidationMessageFor(model => model.FoodName)
+            @Html.TextBoxFor(model => model.FoodName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.FoodName, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
         @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.Description)
-            @Html.ValidationMessageFor(model => model.Description)
+            @Html.TextBoxFor(model => model.Description, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.ImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.UploadedFile, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.ImagePath)
-            @Html.ValidationMessageFor(model => model.ImagePath)
+            <input type="file" id="UploadedFile" name="UploadedFile" class="form-control" />
+            @Html.ValidationMessageFor(model => model.UploadedFile, "", new { @class = "text-danger" })
         </div>
     </div>
 

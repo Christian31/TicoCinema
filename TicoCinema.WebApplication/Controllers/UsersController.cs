@@ -153,6 +153,7 @@ namespace TicoCinema.WebApplication.Controllers
                 AddErrors(result);
             }
 
+            ViewBag.Provinces = GetProvinces();
             return View(user);
         }
 

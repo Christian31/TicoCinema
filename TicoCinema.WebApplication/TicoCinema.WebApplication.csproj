@@ -171,7 +171,9 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AudienceClassificationsController.cs" />
+    <Compile Include="Controllers\CinemaSchedulesController.cs" />
     <Compile Include="Controllers\CinemasController.cs" />
+    <Compile Include="Controllers\FoodInventaryController.cs" />
     <Compile Include="Controllers\FoodsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -247,24 +249,28 @@
     <Compile Include="Utils\RazorHelper.cs" />
     <Compile Include="Utils\WebConfigHelper.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
+    <Compile Include="ViewModels\AudienceClassificationViewModels.cs" />
     <Compile Include="ViewModels\CinemaViewModels.cs" />
     <Compile Include="ViewModels\DirectionViewModels.cs" />
+    <Compile Include="ViewModels\FoodInventaryViewModels.cs" />
     <Compile Include="ViewModels\FoodViewModels.cs" />
     <Compile Include="ViewModels\IdentityModels.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\MoviePriceViewModels.cs" />
     <Compile Include="ViewModels\MovieViewModels.cs" />
     <Compile Include="ViewModels\UserViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
-    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap-select.min.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\owl.carousel.css" />
+    <Content Include="Content\owl.theme.default.css" />
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Models\CinemaModel.Context.tt">
@@ -284,28 +290,33 @@
     <Content Include="Models\CinemaModel.edmx.diagram">
       <DependentUpon>CinemaModel.edmx</DependentUpon>
     </Content>
-    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\bootstrap.min.css.map" />
-    <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
-    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\front.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery-ui.js" />
+    <Content Include="Scripts\jquery.cookie.js" />
+    <Content Include="Scripts\jquery.counterup.min.js" />
+    <Content Include="Scripts\jquery.parallax-1.1.3.js" />
+    <Content Include="Scripts\jquery.scrollTo.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\jquery.waypoints.min.js" />
+    <Content Include="Scripts\owl.carousel.min.js" />
+    <Content Include="Scripts\owl.carousel2.thumbs.min.js" />
+    <Content Include="Scripts\popper.min.js" />
     <Content Include="Scripts\Users.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -366,6 +377,16 @@
     <Content Include="Views\Movies\Details.cshtml" />
     <Content Include="Views\Movies\Edit.cshtml" />
     <Content Include="Views\Movies\Index.cshtml" />
+    <Content Include="Views\FoodInventary\Create.cshtml" />
+    <Content Include="Views\FoodInventary\Delete.cshtml" />
+    <Content Include="Views\FoodInventary\Details.cshtml" />
+    <Content Include="Views\FoodInventary\Edit.cshtml" />
+    <Content Include="Views\FoodInventary\Index.cshtml" />
+    <Content Include="Views\CinemaSchedules\Create.cshtml" />
+    <Content Include="Views\CinemaSchedules\Delete.cshtml" />
+    <Content Include="Views\CinemaSchedules\Details.cshtml" />
+    <Content Include="Views\CinemaSchedules\Edit.cshtml" />
+    <Content Include="Views\CinemaSchedules\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using Microsoft.AspNet.Identity;
+using System;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
@@ -61,6 +63,15 @@ namespace TicoCinema.WebApplication.Controllers
                 Food dbFood = ConvertViewModelToFood(food);
                 db.Food.Add(dbFood);
                 db.SaveChanges();
+
+                db.FoodHistory.Add(new FoodHistory {
+                    Description = "Se crea un nuevo registro",
+                    FoodId = dbFood.FoodId,
+                    ModificationDate = DateTime.Now,
+                    UserName = User.Identity.GetUserName()
+                });
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 

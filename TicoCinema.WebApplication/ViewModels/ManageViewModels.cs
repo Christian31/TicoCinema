@@ -15,7 +15,7 @@ namespace TicoCinema.WebApplication.ViewModels
 
     public class SetPasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         [StringLength(100, ErrorMessage = "El campo {0} debe de tener almenos {2} caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Nueva contraseña")]
@@ -29,12 +29,12 @@ namespace TicoCinema.WebApplication.ViewModels
 
     public class ChangePasswordViewModel
     {
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña actual")]
         public string OldPassword { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         [StringLength(100, ErrorMessage = "El campo {0} debe de tener almenos {2} caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Nueva contraseña")]

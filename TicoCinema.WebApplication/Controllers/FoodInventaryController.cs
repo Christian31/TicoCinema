@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using TicoCinema.WebApplication.Models;
 using TicoCinema.WebApplication.ViewModels;
@@ -18,28 +17,10 @@ namespace TicoCinema.WebApplication.Controllers
         // GET: FoodInventary
         public ActionResult Index()
         {
+            var foodHistory = db.sp_GetFoodInventary();
+            var foodViewModels = ConvertResultsToViewModels(foodHistory);
 
-
-            var foodViewModel = from food in db.Food
-                                join foodHist in 
-                                (from item in db.FoodHistory 
-                                 join itemHist in db.FoodHistory
-                                 on item.FoodId equals itemHist.FoodId and item.FoodHistoryId equals itemHist.FoodHistoryId)
-
-
-
-                                on food.FoodId equals foodHist.FoodId
-                                select new FoodInventaryViewModel
-                                {
-                                    FoodHistoryId = foodHist.FoodHistoryId,
-                                    FoodId = food.FoodId,
-                                    FoodName = food.FoodName,
-                                    Price = foodHist.Price.ToString(),
-                                    QuantityChanged = foodHist.QuantityAvailable.ToString()
-                                };
-
-            var foodHistory = db.FoodHistory.Include(f => f.Food);
-            return View(foodHistory.ToList());
+            return View(foodViewModels);
         }
 
         // GET: FoodInventary/Details/5
@@ -49,7 +30,10 @@ namespace TicoCinema.WebApplication.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            FoodHistory foodHistory = db.FoodHistory.Find(id);
+
+            var foodHistorial = db.sp_GetFoodInventary();
+            var foodViewModels = ConvertResultsToViewModels(foodHistorial);
+            var foodHistory = foodViewModels.FirstOrDefault(item => item.FoodId == id);
             if (foodHistory == null)
             {
                 return HttpNotFound();
@@ -60,7 +44,13 @@ namespace TicoCinema.WebApplication.Controllers
         // GET: FoodInventary/Create
         public ActionResult Create()
         {
-            ViewBag.FoodId = new SelectList(db.Food, "FoodId", "FoodName");
+            IEnumerable<SelectListItem> foodListItems = (from item in db.Food
+                                                         select new SelectListItem
+                                                         {
+                                                             Value = item.FoodId.ToString(),
+                                                             Text = item.FoodName.ToString()
+                                                         }).ToList();
+            ViewBag.FoodId = foodListItems;
             return View();
         }
 
@@ -69,31 +59,42 @@ namespace TicoCinema.WebApplication.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "FoodHistoryId,FoodId,Price,QuantityAvailable,QuantityChanged,Status,UserName,Description,ModificationDate")] FoodHistory foodHistory)
+        public ActionResult Create(FoodInventaryViewModel food)
         {
             if (ModelState.IsValid)
             {
-                db.FoodHistory.Add(foodHistory);
+                var foodHistorial = db.sp_GetFoodInventary();
+                var foodViewModels = ConvertResultsToViewModels(foodHistorial);
+                var foodHistory = foodViewModels.FirstOrDefault(item => item.FoodId == food.FoodId);
+
+                var fooddb = ConvertViewModelToFoodHistory(food, foodHistory.QuantityChanged);
+                db.FoodHistory.Add(fooddb);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 
-            ViewBag.FoodId = new SelectList(db.Food, "FoodId", "FoodName", foodHistory.FoodId);
-            return View(foodHistory);
+            IEnumerable<SelectListItem> foodListItems = (from item in db.Food
+                                                         select new SelectListItem
+                                                         {
+                                                             Value = item.FoodId.ToString(),
+                                                             Text = item.FoodName.ToString()
+                                                         }).ToList();
+            ViewBag.FoodId = foodListItems;
+            return View(food);
         }
 
         // GET: FoodInventary/Edit/5
-        public ActionResult Edit(long? id)
+        public ActionResult Edit(long id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            FoodHistory foodHistory = db.FoodHistory.Find(id);
+            var foodHistorial = db.sp_GetFoodInventary();
+            var foodViewModels = ConvertResultsToViewModels(foodHistorial);
+            var foodHistory = foodViewModels.FirstOrDefault(item => item.FoodId == id);
             if (foodHistory == null)
             {
                 return HttpNotFound();
             }
+
             ViewBag.FoodId = new SelectList(db.Food, "FoodId", "FoodName", foodHistory.FoodId);
             return View(foodHistory);
         }
@@ -103,42 +104,22 @@ namespace TicoCinema.WebApplication.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "FoodHistoryId,FoodId,Price,QuantityAvailable,QuantityChanged,Status,UserName,Description,ModificationDate")] FoodHistory foodHistory)
+        public ActionResult Edit([Bind(Include = "Price, FoodId")]FoodInventaryViewModel food)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(foodHistory).State = EntityState.Modified;
+                var foodHistorial = db.sp_GetFoodInventary();
+                var foodViewModels = ConvertResultsToViewModels(foodHistorial);
+                var foodHistory = foodViewModels.FirstOrDefault(item => item.FoodId == food.FoodId);
+
+                var fooddb = ConvertViewModelToFoodHistory(food, foodHistory.QuantityChanged);
+                db.FoodHistory.Add(fooddb);
                 db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
-            ViewBag.FoodId = new SelectList(db.Food, "FoodId", "FoodName", foodHistory.FoodId);
-            return View(foodHistory);
-        }
-
-        // GET: FoodInventary/Delete/5
-        public ActionResult Delete(long? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            FoodHistory foodHistory = db.FoodHistory.Find(id);
-            if (foodHistory == null)
-            {
-                return HttpNotFound();
-            }
-            return View(foodHistory);
-        }
-
-        // POST: FoodInventary/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(long id)
-        {
-            FoodHistory foodHistory = db.FoodHistory.Find(id);
-            db.FoodHistory.Remove(foodHistory);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            ViewBag.FoodId = new SelectList(db.Food, "FoodId", "FoodName", food.FoodId);
+            return View(food);
         }
 
         protected override void Dispose(bool disposing)
@@ -150,7 +131,7 @@ namespace TicoCinema.WebApplication.Controllers
             base.Dispose(disposing);
         }
 
-        private List<FoodInventaryViewModel> ConvertViewModelsToMovies(List<FoodHistory> foodHistories)
+        private List<FoodInventaryViewModel> ConvertResultsToViewModels(ObjectResult<sp_GetFoodInventary_Result> foodHistories)
         {
             List<FoodInventaryViewModel> foodInventaryViewModels = new List<FoodInventaryViewModel>();
             foreach (var foodHistory in foodHistories)
@@ -161,48 +142,32 @@ namespace TicoCinema.WebApplication.Controllers
             return foodInventaryViewModels;
         }
 
-        private FoodHistory ConvertViewModelToFoodHistory(FoodInventaryViewModel foodInventaryViewModel)
+        private FoodHistory ConvertViewModelToFoodHistory(FoodInventaryViewModel foodInventaryViewModel, int quantityAvailable)
         {
-            FoodHistory foodHistory = db.FoodHistory.Find(foodInventaryViewModel.FoodHistoryId);
-            if (foodHistory == null)
+            decimal.TryParse(foodInventaryViewModel.Price, out decimal price);
+            FoodHistory foodHistory = new FoodHistory
             {
-                foodHistory = new FoodHistory
-                {
-                    //AudienceClassificationId = foodInventaryViewModel.AudienceClassificationId,
-                    //DurationTime = new TimeSpan(0, int.Parse(foodInventaryViewModel.DurationTime), 0),
-                    //MovieId = foodInventaryViewModel.MovieId,
-                    //Name = foodInventaryViewModel.Name,
-                    //ImagePath = foodInventaryViewModel.ImagePath,
-                    //ReleaseDate = foodInventaryViewModel.ReleaseDate,
-                    //CategoriesAssigned = foodInventaryViewModel.CategoriesAssigned
-                };
-            }
-            else
-            {
-                //foodHistory.AudienceClassificationId = foodInventaryViewModel.AudienceClassificationId;
-                //foodHistory.DurationTime = new TimeSpan(0, int.Parse(foodInventaryViewModel.DurationTime), 0);
-                //foodHistory.MovieId = foodInventaryViewModel.MovieId;
-                //foodHistory.Name = foodInventaryViewModel.Name;
-                //foodHistory.ImagePath = foodInventaryViewModel.ImagePath;
-                //foodHistory.ReleaseDate = foodInventaryViewModel.ReleaseDate;
-                //foodHistory.CategoriesAssigned = foodInventaryViewModel.CategoriesAssigned;
-            }
+                Description = "Se actualiza el inventario",
+                FoodId = foodInventaryViewModel.FoodId,
+                ModificationDate = DateTime.Now,
+                Price = price,
+                QuantityChanged = foodInventaryViewModel.QuantityChanged,
+                QuantityAvailable = quantityAvailable + foodInventaryViewModel.QuantityChanged,
+                Status = 1,
+                UserName = User.Identity.GetUserName()
+            };
 
             return foodHistory;
         }
 
-        private FoodInventaryViewModel ConvertFoodHistoryToViewModel(FoodHistory movie)
+        private FoodInventaryViewModel ConvertFoodHistoryToViewModel(sp_GetFoodInventary_Result food)
         {
             return new FoodInventaryViewModel
             {
-                //AudienceClassificationId = movie.AudienceClassificationId,
-                //AudienceClassificationName = movie.AudienceClassification.Name,
-                //DurationTime = movie.DurationTime.TotalMinutes.ToString(),
-                //MovieId = movie.MovieId,
-                //Name = movie.Name,
-                //ImagePath = movie.ImagePath,
-                //ReleaseDate = movie.ReleaseDate,
-                //CategoriesAssigned = 0
+                FoodId = food.FoodId,
+                FoodName = food.FoodName,
+                Price = food.Price.ToString(),
+                QuantityChanged = food.QuantityAvailable
             };
         }
     }

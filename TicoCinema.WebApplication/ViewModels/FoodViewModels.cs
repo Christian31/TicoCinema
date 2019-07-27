@@ -7,11 +7,11 @@ namespace TicoCinema.WebApplication.ViewModels
     {
         public long FoodId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         [Display(Name = "Nombre de comida")]
         public string FoodName { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         [Display(Name = "Descripción")]
         public string Description { get; set; }
 

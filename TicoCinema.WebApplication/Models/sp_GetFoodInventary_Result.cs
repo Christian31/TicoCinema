@@ -10,18 +10,13 @@
 namespace TicoCinema.WebApplication.Models
 {
     using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
-    public partial class MovieCategory
+    
+    public partial class sp_GetFoodInventary_Result
     {
-        public int CategoryId { get; set; }
-
-        [Required(ErrorMessage = "El campo {0} es requerido.")]
-        [Display(Name = "Nombre de categoria")]
-        public string CategoryName { get; set; }
-
-        public long BitAssigned { get; set; }
-        public short Status { get; set; }
+        public long FoodId { get; set; }
+        public string FoodName { get; set; }
+        public string ImagePath { get; set; }
+        public decimal Price { get; set; }
+        public int QuantityAvailable { get; set; }
     }
 }

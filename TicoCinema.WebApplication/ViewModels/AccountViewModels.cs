@@ -6,6 +6,7 @@ namespace TicoCinema.WebApplication.ViewModels
     {
         [Required(ErrorMessage = "El campo {0} es requerido.")]
         [Display(Name = "Correo electrónico")]
+        [EmailAddress(ErrorMessage = "El campo {0} no es una dirección de correo electrónico válida.")]
         public string Email { get; set; }
     }
 
@@ -13,7 +14,7 @@ namespace TicoCinema.WebApplication.ViewModels
     {
         [Required(ErrorMessage = "El campo {0} es requerido.")]
         [Display(Name = "Correo electrónico")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "El campo {0} no es una dirección de correo electrónico válida.")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es requerido.")]
@@ -28,7 +29,7 @@ namespace TicoCinema.WebApplication.ViewModels
     public class RegisterViewModel
     {
         [Required(ErrorMessage = "El campo {0} es requerido.")]
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "El campo {0} no es una dirección de correo electrónico válida.")]
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
 
@@ -59,27 +60,27 @@ namespace TicoCinema.WebApplication.ViewModels
         [Display(Name = "Género")]
         public Utils.Enums.Gender Gender { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         [Display(Name = "Provincia")]
         public int Province { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         [Display(Name = "Cantón")]
         public int Canton { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         [Display(Name = "Distrito")]
         public int District { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         [Display(Name = "Detalle de dirección")]
         public string Details { get; set; }
     }
 
     public class ForgotPasswordViewModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
+        [EmailAddress(ErrorMessage = "El campo {0} no es una dirección de correo electrónico válida.")]
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
     }

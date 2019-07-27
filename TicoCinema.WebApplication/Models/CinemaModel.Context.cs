@@ -12,6 +12,8 @@ namespace TicoCinema.WebApplication.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class Entities : DbContext
     {
@@ -39,5 +41,10 @@ namespace TicoCinema.WebApplication.Models
         public virtual DbSet<SaleDetails> SaleDetails { get; set; }
         public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Parameter> Parameter { get; set; }
+    
+        public virtual ObjectResult<sp_GetFoodInventary_Result> sp_GetFoodInventary()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFoodInventary_Result>("sp_GetFoodInventary");
+        }
     }
 }

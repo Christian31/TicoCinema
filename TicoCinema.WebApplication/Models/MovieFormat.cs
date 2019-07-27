@@ -25,7 +25,7 @@ namespace TicoCinema.WebApplication.Models
     
         public int MovieFormatId { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "El campo {0} es requerido.")]
         [Display(Name = "Nombre de formato")]
         public string Name { get; set; }
     

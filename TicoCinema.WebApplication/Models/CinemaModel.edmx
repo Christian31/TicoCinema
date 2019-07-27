@@ -260,6 +260,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sp_GetFoodInventary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="TicoCinemaModelStoreContainer">
           <EntitySet Name="AudienceClassification" EntityType="Self.AudienceClassification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Cinema" EntityType="Self.Cinema" Schema="dbo" store:Type="Tables" />
@@ -367,6 +368,7 @@
             <End Role="SaleDetails" EntitySet="SaleDetails" />
           </AssociationSet>
           <EntitySet Name="Parameter" EntityType="TicoCinemaModel.Parameter" />
+          <FunctionImport Name="sp_GetFoodInventary" ReturnType="Collection(TicoCinemaModel.sp_GetFoodInventary_Result)" />
         </EntityContainer>
         <EntityType Name="AudienceClassification">
           <Key>
@@ -641,6 +643,13 @@
           <Property Name="ParamId" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="ParamValue" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
+        <ComplexType Name="sp_GetFoodInventary_Result">
+          <Property Type="Int64" Name="FoodId" Nullable="false" />
+          <Property Type="String" Name="FoodName" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="ImagePath" Nullable="false" />
+          <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
+          <Property Type="Int32" Name="QuantityAvailable" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -807,6 +816,17 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetFoodInventary" FunctionName="TicoCinemaModel.Store.sp_GetFoodInventary">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TicoCinemaModel.sp_GetFoodInventary_Result">
+                <ScalarProperty Name="FoodId" ColumnName="FoodId" />
+                <ScalarProperty Name="FoodName" ColumnName="FoodName" />
+                <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="QuantityAvailable" ColumnName="QuantityAvailable" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

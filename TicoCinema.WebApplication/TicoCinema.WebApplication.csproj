@@ -239,6 +239,9 @@
     <Compile Include="Models\SaleDetails.cs">
       <DependentUpon>CinemaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\sp_GetFoodInventary_Result.cs">
+      <DependentUpon>CinemaModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\User.cs">
       <DependentUpon>CinemaModel.tt</DependentUpon>
     </Compile>
@@ -378,7 +381,6 @@
     <Content Include="Views\Movies\Edit.cshtml" />
     <Content Include="Views\Movies\Index.cshtml" />
     <Content Include="Views\FoodInventary\Create.cshtml" />
-    <Content Include="Views\FoodInventary\Delete.cshtml" />
     <Content Include="Views\FoodInventary\Details.cshtml" />
     <Content Include="Views\FoodInventary\Edit.cshtml" />
     <Content Include="Views\FoodInventary\Index.cshtml" />

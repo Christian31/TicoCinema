@@ -17,9 +17,9 @@
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
     <div class="form-group">
-        @Html.LabelFor(model => model.FoodId, "FoodId", htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.FoodId, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.DropDownListFor(m => m.FoodId, (IEnumerable<SelectListItem>)ViewBag.FoodId, new { @class = "form-control" })
+            @Html.DropDownListFor(model => model.FoodId, (IEnumerable<SelectListItem>)ViewBag.FoodId, new { @class = "form-control" })
             @Html.ValidationMessageFor(model => model.FoodId, "", new { @class = "text-danger" })
         </div>
     </div>

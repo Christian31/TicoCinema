@@ -173,6 +173,7 @@
     <Compile Include="Controllers\AudienceClassificationsController.cs" />
     <Compile Include="Controllers\CinemaSchedulesController.cs" />
     <Compile Include="Controllers\CinemasController.cs" />
+    <Compile Include="Controllers\CinemaServiceController.cs" />
     <Compile Include="Controllers\FoodInventaryController.cs" />
     <Compile Include="Controllers\FoodsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -247,12 +248,15 @@
     </Compile>
     <Compile Include="Utils\BitManager.cs" />
     <Compile Include="Utils\CacheManager.cs" />
+    <Compile Include="Utils\CinemaSchedulerManager.cs" />
     <Compile Include="Utils\Enums.cs" />
+    <Compile Include="Utils\Extensions.cs" />
     <Compile Include="Utils\FileManager.cs" />
     <Compile Include="Utils\RazorHelper.cs" />
     <Compile Include="Utils\WebConfigHelper.cs" />
     <Compile Include="ViewModels\AccountViewModels.cs" />
     <Compile Include="ViewModels\AudienceClassificationViewModels.cs" />
+    <Compile Include="ViewModels\CinemaScheduleViewModels.cs" />
     <Compile Include="ViewModels\CinemaViewModels.cs" />
     <Compile Include="ViewModels\DirectionViewModels.cs" />
     <Compile Include="ViewModels\FoodInventaryViewModels.cs" />
@@ -269,13 +273,18 @@
     <Content Include="Content\bootstrap-select.min.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\font-awesome.min.css" />
-    <Content Include="Content\jquery-ui.css" />
     <Content Include="Content\owl.carousel.css" />
     <Content Include="Content\owl.theme.default.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\ui-icons_444444_256x240.png" />
+    <Content Include="Images\ui-icons_555555_256x240.png" />
+    <Content Include="Images\ui-icons_777620_256x240.png" />
+    <Content Include="Images\ui-icons_777777_256x240.png" />
+    <Content Include="Images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Images\ui-icons_ffffff_256x240.png" />
     <Content Include="Models\CinemaModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>CinemaModel.edmx</DependentUpon>
@@ -298,16 +307,18 @@
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
-    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\bootstrap-select.min.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Custom\CinemaSchedules.js" />
     <Content Include="Scripts\front.js" />
+    <Content Include="Scripts\jquery-3.3.1.min.map" />
+    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery-ui.js" />
     <Content Include="Scripts\jquery.cookie.js" />
     <Content Include="Scripts\jquery.counterup.min.js" />
     <Content Include="Scripts\jquery.parallax-1.1.3.js" />
@@ -320,7 +331,7 @@
     <Content Include="Scripts\owl.carousel.min.js" />
     <Content Include="Scripts\owl.carousel2.thumbs.min.js" />
     <Content Include="Scripts\popper.min.js" />
-    <Content Include="Scripts\Users.js" />
+    <Content Include="Scripts\Custom\Users.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -387,8 +398,12 @@
     <Content Include="Views\CinemaSchedules\Create.cshtml" />
     <Content Include="Views\CinemaSchedules\Delete.cshtml" />
     <Content Include="Views\CinemaSchedules\Details.cshtml" />
-    <Content Include="Views\CinemaSchedules\Edit.cshtml" />
     <Content Include="Views\CinemaSchedules\Index.cshtml" />
+    <Content Include="Views\CinemaService\Create.cshtml" />
+    <Content Include="Views\CinemaService\Delete.cshtml" />
+    <Content Include="Views\CinemaService\Details.cshtml" />
+    <Content Include="Views\CinemaService\Edit.cshtml" />
+    <Content Include="Views\CinemaService\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -397,8 +412,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <Content Include="Scripts\jquery-3.3.1.slim.min.map" />
-    <Content Include="Scripts\jquery-3.3.1.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

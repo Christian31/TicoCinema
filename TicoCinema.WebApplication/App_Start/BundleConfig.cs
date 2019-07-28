@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Optimization;
+﻿using System.Web.Optimization;
 
 namespace TicoCinema.WebApplication
 {
@@ -9,7 +8,6 @@ namespace TicoCinema.WebApplication
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/jquery-ui.js",
                         "~/Scripts/jquery.cookie.js",
                         "~/Scripts/jquery.counterup.min.js",
                         "~/Scripts/jquery.parallax-{version}.js",
@@ -18,9 +16,6 @@ namespace TicoCinema.WebApplication
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
-
-           bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-                        "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/front").Include(
                         "~/Scripts/front.js"));
@@ -37,9 +32,6 @@ namespace TicoCinema.WebApplication
             bundles.Add(new StyleBundle("~/Content/bootstrap").Include(
                       "~/Content/bootstrap.min.css",
                       "~/Content/bootstrap-select.min.css"));
-
-            bundles.Add(new StyleBundle("~/Content/cssjqryui").Include(
-                   "~/Content/jquery-ui.css"));
 
             bundles.Add(new StyleBundle("~/Content/vendors").Include(
                       "~/Content/font-awesome.min.css",

@@ -104,11 +104,12 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval");
-    @Scripts.Render("~/Scripts/Users.js");
+    @Scripts.Render("~/Scripts/Custom/Users.js");
 
     <script type="text/javascript">
         $('.datepicker').datepicker({
-            todayHighlight: true
+            todayHighlight: true,
+            maxDate: -1
         });
 
         GetCantonsByProvinceId();

@@ -1,15 +1,14 @@
 ﻿function GetCantonsByProvinceId() {
-    var dID = $("#Province").val();
+    var provinceID = $("#Province").val();
 
     $.ajax({
         url: "/Users/GetCantonsByProvinceId",
         type: "GET",
         async: false,
         dataType: "JSON",
-        data: { provinceId: dID },
+        data: { provinceId: provinceID },
         contentType: "application/json;",
         success: function (response) {
-            console.log(response);
             var select = $("#Canton");
             select.empty();
             $.each(response, function (index, itemData) {
@@ -20,23 +19,22 @@
             });
         },
         error: function (request, error) {
-            alert(error);
+            console.log(error);
         }
     });
 };
 
 function GetDistrictsByCantonId() {
-    var dID = $("#Canton").val();
+    var cantonID = $("#Canton").val();
 
     $.ajax({
         url: "/Users/GetDistrictsByCantonId",
         type: "GET",
         async: false,
         dataType: "JSON",
-        data: { cantonId: dID },
+        data: { cantonId: cantonID },
         contentType: "application/json;",
         success: function (response) {
-            console.log(response);
             var select = $("#District");
             select.empty();
             $.each(response, function (index, itemData) {
@@ -47,7 +45,7 @@ function GetDistrictsByCantonId() {
             });
         },
         error: function (request, error) {
-            alert(error);
+            console.log(error);
         }
     });
 };

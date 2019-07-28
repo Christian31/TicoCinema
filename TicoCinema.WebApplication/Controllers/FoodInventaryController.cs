@@ -44,13 +44,7 @@ namespace TicoCinema.WebApplication.Controllers
         // GET: FoodInventary/Create
         public ActionResult Create()
         {
-            IEnumerable<SelectListItem> foodListItems = (from item in db.Food
-                                                         select new SelectListItem
-                                                         {
-                                                             Value = item.FoodId.ToString(),
-                                                             Text = item.FoodName.ToString()
-                                                         }).ToList();
-            ViewBag.FoodId = foodListItems;
+            ViewBag.FoodId = new SelectList(db.Food, "FoodId", "FoodName");
             return View();
         }
 
@@ -74,13 +68,7 @@ namespace TicoCinema.WebApplication.Controllers
                 return RedirectToAction("Index");
             }
 
-            IEnumerable<SelectListItem> foodListItems = (from item in db.Food
-                                                         select new SelectListItem
-                                                         {
-                                                             Value = item.FoodId.ToString(),
-                                                             Text = item.FoodName.ToString()
-                                                         }).ToList();
-            ViewBag.FoodId = foodListItems;
+            ViewBag.FoodId = new SelectList(db.Food, "FoodId", "FoodName", food.FoodId);
             return View(food);
         }
 

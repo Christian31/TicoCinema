@@ -10,9 +10,11 @@
 
     @Styles.Render("~/Content/bootstrap")
     @Styles.Render("~/Content/vendors")
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,700">
-    @Styles.Render("~/Content/cssjqryui")
     @Styles.Render("~/Content/css")
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,700">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
 
     <!-- Favicon and apple touch icons-->
     <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
@@ -99,8 +101,8 @@
                                 }
                                 if (User.IsInRole("Guest"))
                                 {
-                                    <li class="nav-item"><a href="@Url.Action("Index", "CinemaSchedule")" class="nav-link">Cartelera</a></li>
-                                    <li class="nav-item"><a href="@Url.Action("Index", "Food")" class="nav-link">Comidas</a></li>
+                                    <li class="nav-item"><a href="@Url.Action("Index", "CinemaService")" class="nav-link">Cartelera</a></li>
+                                    <li class="nav-item"><a href="@Url.Action("Index", "FoodService")" class="nav-link">Comidas</a></li>
                                 }
                             }
 
@@ -137,7 +139,9 @@
     <script src="~/Scripts/bootstrap-select.min.js"></script>
     <script src="~/Scripts/jquery.scrollTo.min.js"></script>
     <script src="~/Scripts/front.js"></script>
-    <script src="~/Scripts/jquery-ui.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 
     @RenderSection("scripts", required: false)
 </body>

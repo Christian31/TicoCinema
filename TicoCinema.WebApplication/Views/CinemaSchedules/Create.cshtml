@@ -1,4 +1,5 @@
-﻿@model TicoCinema.WebApplication.Models.CinemaSchedule
+﻿@using TicoCinema.WebApplication.Utils
+@model TicoCinema.WebApplication.ViewModels.CinemaScheduleViewModel
 
 @{
     ViewBag.Title = "Create";
@@ -7,42 +8,35 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>CinemaSchedule</h4>
         <hr />
-        @Html.ValidationSummary(true)
-        <div class="form-group">
-            @Html.LabelFor(model => model.CinemaId, "CinemaId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("CinemaId", String.Empty)
-                @Html.ValidationMessageFor(model => model.CinemaId)
-            </div>
-        </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         <div class="form-group">
-            @Html.LabelFor(model => model.MovieFormatId, "MovieFormatId", htmlAttributes: new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.MovieId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("MovieFormatId", String.Empty)
-                @Html.ValidationMessageFor(model => model.MovieFormatId)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.MovieId, "MovieId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("MovieId", String.Empty)
+                @Html.DropDownListFor(model => model.MovieId, (IEnumerable<SelectListItem>)ViewBag.MovieId, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.MovieId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.MovieFormatId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.MovieFormatId, (IEnumerable<SelectListItem>)ViewBag.MovieFormatId, new { @class = "form-control", @onchange = "GetCinemasAvailable()" })
+                @Html.ValidationMessageFor(model => model.MovieFormatId)
             </div>
         </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.BeginDatetime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.BeginDatetime)
+                @Html.TextBoxFor(model => model.BeginDatetime, new { @class = "form-control datepicker", @onchange = "GetCinemasAvailable()" })
                 @Html.ValidationMessageFor(model => model.BeginDatetime)
             </div>
         </div>
@@ -50,8 +44,32 @@
         <div class="form-group">
             @Html.LabelFor(model => model.FinishDatetime, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.FinishDatetime)
+                @Html.TextBoxFor(model => model.FinishDatetime, new { @class = "form-control datepicker", @onchange = "GetCinemasAvailable()" })
                 @Html.ValidationMessageFor(model => model.FinishDatetime)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.BeginTime, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.BeginTime, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.BeginTime)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.HoursRange, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.HoursRange, TicoCinema.WebApplication.Utils.Enums.HoursRange.None.ToSelectList(), new { @class = "form-control", @onchange = "GetCinemasAvailable()" })
+                @Html.ValidationMessageFor(model => model.HoursRange)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CinemaId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.CinemaId, new List<SelectListItem>(), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CinemaId)
             </div>
         </div>
 
@@ -69,4 +87,47 @@
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Scripts/Custom/CinemaSchedules.js");
+
+    <script type="text/javascript">
+        $(function () {
+            var dateFormat = "mm/dd/yy",
+                from = $("#BeginDatetime")
+                    .datepicker({
+                        minDate: +1,
+                        changeMonth: true
+                    })
+                    .on("change", function () {
+                        to.datepicker("option", "minDate", getDate(this));
+                    }),
+                to = $("#FinishDatetime").datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: true,
+                })
+                    .on("change", function () {
+                        from.datepicker("option", "maxDate", getDate(this));
+                    });
+
+            function getDate(element) {
+                var date;
+                try {
+                    date = $.datepicker.parseDate(dateFormat, element.value);
+                } catch (error) {
+                    date = null;
+                }
+
+                return date;
+            }
+        });
+
+        $('#BeginTime').timepicker({
+            timeFormat: 'HH:mm',
+            dynamic: false,
+            dropdown: true,
+            scrollbar: true,
+            change: GetCinemasAvailable
+        });
+
+        GetCinemasAvailable();
+    </script>
 }

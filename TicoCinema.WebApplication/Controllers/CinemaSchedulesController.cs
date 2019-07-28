@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using TicoCinema.WebApplication.Models;
+using TicoCinema.WebApplication.Utils;
+using TicoCinema.WebApplication.ViewModels;
 
 namespace TicoCinema.WebApplication.Controllers
 {
@@ -22,12 +24,8 @@ namespace TicoCinema.WebApplication.Controllers
         }
 
         // GET: CinemaSchedules/Details/5
-        public ActionResult Details(int? id)
+        public ActionResult Details(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             CinemaSchedule cinemaSchedule = db.CinemaSchedule.Find(id);
             if (cinemaSchedule == null)
             {
@@ -39,81 +37,67 @@ namespace TicoCinema.WebApplication.Controllers
         // GET: CinemaSchedules/Create
         public ActionResult Create()
         {
-            ViewBag.CinemaId = new SelectList(db.Cinema, "CinemaId", "Name");
             ViewBag.MovieId = new SelectList(db.Movie, "MovieId", "Name");
             ViewBag.MovieFormatId = new SelectList(db.MovieFormat, "MovieFormatId", "Name");
             return View();
         }
 
         // POST: CinemaSchedules/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CinemaScheduleId,CinemaId,MovieFormatId,MovieId,BeginDatetime,FinishDatetime")] CinemaSchedule cinemaSchedule)
+        public ActionResult Create(CinemaScheduleViewModel cinemaSchedule)
         {
             if (ModelState.IsValid)
             {
-                db.CinemaSchedule.Add(cinemaSchedule);
-                db.SaveChanges();
+                CinemaSchedulerManager.SaveCinemaScheduler(cinemaSchedule);
                 return RedirectToAction("Index");
             }
 
-            ViewBag.CinemaId = new SelectList(db.Cinema, "CinemaId", "Name", cinemaSchedule.CinemaId);
             ViewBag.MovieId = new SelectList(db.Movie, "MovieId", "Name", cinemaSchedule.MovieId);
             ViewBag.MovieFormatId = new SelectList(db.MovieFormat, "MovieFormatId", "Name", cinemaSchedule.MovieFormatId);
             return View(cinemaSchedule);
         }
 
-        // GET: CinemaSchedules/Edit/5
-        public ActionResult Edit(int? id)
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult GetCinemasAvailable(int movieId, int movieFormatId, string beginDate, string finishDate, string beginHour, string hoursRange)
         {
-            if (id == null)
+            var cinemaSchedulesToValidate = CinemaSchedulerManager.GenerateCinemaSchedules(movieId, beginDate, finishDate, beginHour, hoursRange);
+            var cinemasByFormat = db.Cinema.Where(item => item.MovieFormatId == movieFormatId).Select(item => item.CinemaId).ToList();
+            var cinemaSchedulesByCinema = db.CinemaSchedule.Where(item => cinemasByFormat.Contains(item.CinemaId));
+            Dictionary<int, bool> cinemasUsed = new Dictionary<int, bool>();
+            foreach (var cinemaScheduleToValidate in cinemaSchedulesToValidate)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                foreach (var cinemaRegistered in cinemaSchedulesByCinema)
+                {
+                    if (!cinemasUsed.ContainsKey(cinemaRegistered.CinemaId))
+                    {
+                        if (cinemaRegistered.BeginDatetime.IsInRange(cinemaRegistered.BeginDatetime, cinemaRegistered.FinishDatetime) ||
+                            cinemaRegistered.FinishDatetime.IsInRange(cinemaRegistered.BeginDatetime, cinemaRegistered.FinishDatetime))
+                        {
+                            cinemasUsed.Add(cinemaRegistered.CinemaId, true);
+                        }
+                    }                    
+                }
             }
-            CinemaSchedule cinemaSchedule = db.CinemaSchedule.Find(id);
-            if (cinemaSchedule == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.CinemaId = new SelectList(db.Cinema, "CinemaId", "Name", cinemaSchedule.CinemaId);
-            ViewBag.MovieId = new SelectList(db.Movie, "MovieId", "Name", cinemaSchedule.MovieId);
-            ViewBag.MovieFormatId = new SelectList(db.MovieFormat, "MovieFormatId", "Name", cinemaSchedule.MovieFormatId);
-            return View(cinemaSchedule);
-        }
-
-        // POST: CinemaSchedules/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CinemaScheduleId,CinemaId,MovieFormatId,MovieId,BeginDatetime,FinishDatetime")] CinemaSchedule cinemaSchedule)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(cinemaSchedule).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.CinemaId = new SelectList(db.Cinema, "CinemaId", "Name", cinemaSchedule.CinemaId);
-            ViewBag.MovieId = new SelectList(db.Movie, "MovieId", "Name", cinemaSchedule.MovieId);
-            ViewBag.MovieFormatId = new SelectList(db.MovieFormat, "MovieFormatId", "Name", cinemaSchedule.MovieFormatId);
-            return View(cinemaSchedule);
+            var cinemasAvailable = db.Cinema.Where(item => item.MovieFormatId == movieFormatId && !cinemasUsed.Keys.Contains(item.CinemaId)).ToList();
+            var cinemas = new SelectList(cinemasAvailable, "CinemaId", "Name");
+            return Json(cinemas, JsonRequestBehavior.AllowGet);
         }
 
         // GET: CinemaSchedules/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             CinemaSchedule cinemaSchedule = db.CinemaSchedule.Find(id);
             if (cinemaSchedule == null)
             {
                 return HttpNotFound();
             }
+            if(cinemaSchedule.CinemaScheduleHistory.Count > 0)
+            {
+                return RedirectToAction("Index");
+            }
+
             return View(cinemaSchedule);
         }
 

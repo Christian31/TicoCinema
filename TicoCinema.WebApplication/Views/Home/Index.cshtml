@@ -1,31 +1,128 @@
-﻿@{
+﻿@model IEnumerable<TicoCinema.WebApplication.ViewModels.AvailableMovieViewModel>
+
+@{
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<div id="heading-breadcrumbs">
+    <div class="container">
+        <div class="row d-flex align-items-center flex-wrap">
+            <div class="col-md-7">
+                <h1 class="h2">Cartelera de películas</h1>
+            </div>
+        </div>
+    </div>
 </div>
-
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+<div id="content">
+    <div class="container">
+        <div class="row bar">
+            <div class="col-md-3">
+                <!-- MENUS AND FILTERS-->
+                <div class="panel panel-default sidebar-menu">
+                    <div class="panel-heading">
+                        <h3 class="h4 panel-title">Categories</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="nav nav-pills flex-column text-sm category-menu">
+                            <li class="nav-item">
+                                <a href="shop-category.html" class="nav-link d-flex align-items-center justify-content-between"><span>Men </span><span class="badge badge-secondary">42</span></a>
+                                <ul class="nav nav-pills flex-column">
+                                    <li class="nav-item"><a href="shop-category.html" class="nav-link">T-shirts</a></li>
+                                    <li class="nav-item"><a href="shop-category.html" class="nav-link">Shirts</a></li>
+                                    <li class="nav-item"><a href="shop-category.html" class="nav-link">Pants</a></li>
+                                    <li class="nav-item"><a href="shop-category.html" class="nav-link">Accessories</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="shop-category.html" class="nav-link active d-flex align-items-center justify-content-between"><span>Ladies  </span><span class="badge badge-light">123</span></a>
+                                <ul class="nav nav-pills flex-column">
+                                    <li class="nav-item"><a href="shop-category.html" class="nav-link">T-shirts</a></li>
+                                    <li class="nav-item"><a href="shop-category.html" class="nav-link">Skirts</a></li>
+                                    <li class="nav-item"><a href="shop-category.html" class="nav-link">Pants</a></li>
+                                    <li class="nav-item"><a href="shop-category.html" class="nav-link">Accessories</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="shop-category.html" class="nav-link d-flex align-items-center justify-content-between"><span>Kids  </span><span class="badge badge-secondary">11</span></a>
+                                <ul class="nav nav-pills flex-column">
+                                    <li class="nav-item"><a href="shop-category.html" class="nav-link">T-shirts</a></li>
+                                    <li class="nav-item"><a href="shop-category.html" class="nav-link">Skirts</a></li>
+                                    <li class="nav-item"><a href="shop-category.html" class="nav-link">Pants</a></li>
+                                    <li class="nav-item"><a href="shop-category.html" class="nav-link">Accessories</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="panel panel-default sidebar-menu">
+                    <div class="panel-heading d-flex align-items-center justify-content-between">
+                        <h3 class="h4 panel-title">Brands</h3><a href="#" class="btn btn-sm btn-danger"><i class="fa fa-times-circle"></i><span class="d-none d-md-inline-block">Clear</span></a>
+                    </div>
+                    <div class="panel-body">
+                        <form>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"> Armani  (10)
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"> Versace  (12)
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"> Carlo Bruni  (15)
+                                    </label>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"> Jack Honey  (14)
+                                    </label>
+                                </div>
+                            </div>
+                            <button class="btn btn-sm btn-template-outlined"><i class="fa fa-pencil"></i> Apply</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="row products products-big">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-lg-4 col-md-6">
+                            <div class="product">
+                                <div class="image"><a href="javascript: void(0)"><img src="@Url.Content(item.MovieImagePath)" alt="" class="img-fluid image1"></a></div>
+                                <div class="text">
+                                    <h5><a href="javascript: void(0)">@item.MovieName</a></h5>
+                                    <h6>Audiencia: @item.AudienceClassificationName / Duración: @item.DurationTime minutos</h6><p></p>
+                                    <hr />
+                                    @foreach (var schedule in item.Schedules)
+                                    {
+                                        <p class="price">@schedule.MovieFormat.Name</p>
+                                        <p class="price"><b><a href="@Url.Action("Create", "CinemaService", new { scheduleId = schedule.CinemaScheduleId })">@schedule.BeginTime</a></b></p>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="pages">
+                    <p class="loadMore text-center"><a href="#" class="btn btn-template-outlined"><i class="fa fa-chevron-down"></i> Load more</a></p>
+                    <nav aria-label="Page navigation example" class="d-flex justify-content-center">
+                        <ul class="pagination">
+                            <li class="page-item"><a href="#" class="page-link"> <i class="fa fa-angle-double-left"></i></a></li>
+                            <li class="page-item active"><a href="#" class="page-link">1</a></li>
+                            <li class="page-item"><a href="#" class="page-link">2</a></li>
+                            <li class="page-item"><a href="#" class="page-link">3</a></li>
+                            <li class="page-item"><a href="#" class="page-link">4</a></li>
+                            <li class="page-item"><a href="#" class="page-link">5</a></li>
+                            <li class="page-item"><a href="#" class="page-link"><i class="fa fa-angle-double-right"></i></a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

@@ -18,7 +18,7 @@ namespace TicoCinema.WebApplication.Controllers
         public ActionResult Index()
         {
             var movies = db.Movie.Include(m => m.AudienceClassification).ToList();
-            var moviesViewModels = ConvertViewModelsToMovies(movies);
+            var moviesViewModels = ConvertMoviesToViewModels(movies);
 
             return View(moviesViewModels);
         }
@@ -38,14 +38,38 @@ namespace TicoCinema.WebApplication.Controllers
 
             MovieViewModel movieViewModel = ConvertMovieToViewModel(movie);
             movieViewModel.ImagePath = FileManager.GetMovieImagePath(movieViewModel.ImagePath);
+            movieViewModel.Categories = GetCategoriesViewModels(movie.CategoriesAssigned);
+
             return View(movieViewModel);
         }
 
         // GET: Movies/Create
         public ActionResult Create()
         {
+            var model = new MovieViewModel()
+            {
+                Categories = GetCategoriesViewModels(0),
+                ReleaseDate = DateTime.Now.AddDays(1)
+            };
             ViewBag.AudienceClassificationId = new SelectList(db.AudienceClassification, "AudienceClassificationId", "Name");
-            return View();
+            return View(model);
+        }
+
+        private IList<SelectListItem> GetCategoriesViewModels(long categoriesSelected)
+        {
+            List<SelectListItem> categoriesViewModels = new List<SelectListItem>();
+            var movieCategories = db.MovieCategory.ToList();
+            foreach (var item in movieCategories)
+            {
+                categoriesViewModels.Add(new SelectListItem()
+                {
+                    Text = item.CategoryName,
+                    Value = item.CategoryId.ToString(),
+                    Selected = BitManager.ContainsBit(categoriesSelected, item.BitAssigned)
+                });
+            }
+
+            return categoriesViewModels;
         }
 
         // POST: Movies/Create
@@ -53,8 +77,22 @@ namespace TicoCinema.WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(MovieViewModel movie)
         {
+            if (movie.UploadedFile == null)
+            {
+                ModelState.AddModelError("UploadedFile", "El campo Imagen es requerido.");
+            }
+            else if (!FileManager.FileHasValidTypeForImages(movie.UploadedFile))
+            {
+                ModelState.AddModelError("UploadedFile", "El campo Imagen permite archivos únicamente con formato JPG y PNG.");
+            }
+
             if (ModelState.IsValid)
             {
+                var categoriesSelected = db.MovieCategory.
+                    Where(item => movie.SelectedCategories.Contains(item.CategoryId.ToString())).
+                    Select(item => item.BitAssigned).ToList();
+
+                movie.CategoriesAssigned = BitManager.GetBitsSum(categoriesSelected);
                 movie.ImagePath = FileManager.SaveMovieImage(movie.Name, movie.UploadedFile);
                 Movie moviedb = ConvertViewModelToMovie(movie);
                 db.Movie.Add(moviedb);
@@ -80,6 +118,7 @@ namespace TicoCinema.WebApplication.Controllers
             }
 
             MovieViewModel movieViewModel = ConvertMovieToViewModel(movie);
+            movieViewModel.Categories = GetCategoriesViewModels(movie.CategoriesAssigned);
             ViewBag.AudienceClassificationId = new SelectList(db.AudienceClassification, "AudienceClassificationId", "Name", movie.AudienceClassificationId);
             return View(movieViewModel);
         }
@@ -89,9 +128,23 @@ namespace TicoCinema.WebApplication.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(MovieViewModel movie)
         {
+            if (movie.UploadedFile != null && !FileManager.FileHasValidTypeForImages(movie.UploadedFile))
+            {
+                ModelState.AddModelError("UploadedFile", "El campo Imagen permite archivos únicamente con formato JPG y PNG.");
+            }
+
             if (ModelState.IsValid)
             {
-                movie.ImagePath = FileManager.ReplaceMovieImage(movie.Name, movie.UploadedFile, movie.ImagePath);
+                if (movie.UploadedFile != null)
+                {
+                    movie.ImagePath = FileManager.ReplaceMovieImage(movie.Name, movie.UploadedFile, movie.ImagePath);
+                }
+
+                var categoriesSelected = db.MovieCategory.
+                    Where(item => movie.SelectedCategories.Contains(item.CategoryId.ToString())).
+                    Select(item => item.BitAssigned).ToList();
+
+                movie.CategoriesAssigned = BitManager.GetBitsSum(categoriesSelected);
                 Movie moviedb = ConvertViewModelToMovie(movie);
 
                 db.Entry(moviedb).State = EntityState.Modified;
@@ -117,6 +170,8 @@ namespace TicoCinema.WebApplication.Controllers
 
             movie.ImagePath = FileManager.GetMovieImagePath(movie.ImagePath);
             MovieViewModel movieViewModel = ConvertMovieToViewModel(movie);
+            movieViewModel.Categories = GetCategoriesViewModels(movie.CategoriesAssigned);
+
             return View(movieViewModel);
         }
 
@@ -142,7 +197,7 @@ namespace TicoCinema.WebApplication.Controllers
             base.Dispose(disposing);
         }
 
-        private List<MovieViewModel> ConvertViewModelsToMovies(List<Movie> movies)
+        private List<MovieViewModel> ConvertMoviesToViewModels(List<Movie> movies)
         {
             List<MovieViewModel> moviesViewModels = new List<MovieViewModel>();
             foreach (var movie in movies)
@@ -193,8 +248,7 @@ namespace TicoCinema.WebApplication.Controllers
                 MovieId = movie.MovieId,
                 Name = movie.Name,
                 ImagePath = movie.ImagePath,
-                ReleaseDate = movie.ReleaseDate,
-                CategoriesAssigned = 0
+                ReleaseDate = movie.ReleaseDate
             };
         }
     }

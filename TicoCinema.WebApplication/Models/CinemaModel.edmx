@@ -260,6 +260,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="sp_GetAvailableMovies" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="sp_GetFoodInventary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="TicoCinemaModelStoreContainer">
           <EntitySet Name="AudienceClassification" EntityType="Self.AudienceClassification" Schema="dbo" store:Type="Tables" />
@@ -369,6 +370,7 @@
           </AssociationSet>
           <EntitySet Name="Parameter" EntityType="TicoCinemaModel.Parameter" />
           <FunctionImport Name="sp_GetFoodInventary" ReturnType="Collection(TicoCinemaModel.sp_GetFoodInventary_Result)" />
+          <FunctionImport Name="sp_GetAvailableMovies" ReturnType="Collection(TicoCinemaModel.sp_GetAvailableMovies_Result)" />
         </EntityContainer>
         <EntityType Name="AudienceClassification">
           <Key>
@@ -650,6 +652,14 @@
           <Property Type="Decimal" Name="Price" Nullable="false" Precision="19" />
           <Property Type="Int32" Name="QuantityAvailable" Nullable="false" />
         </ComplexType>
+        <ComplexType Name="sp_GetAvailableMovies_Result">
+          <Property Type="Int32" Name="CinemaScheduleId" Nullable="false" />
+          <Property Type="Int32" Name="CinemaId" Nullable="false" />
+          <Property Type="Int32" Name="MovieFormatId" Nullable="false" />
+          <Property Type="Int64" Name="MovieId" Nullable="false" />
+          <Property Type="DateTime" Name="BeginDatetime" Nullable="false" Precision="23" />
+          <Property Type="DateTime" Name="FinishDatetime" Nullable="false" Precision="23" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -824,6 +834,18 @@
                 <ScalarProperty Name="ImagePath" ColumnName="ImagePath" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
                 <ScalarProperty Name="QuantityAvailable" ColumnName="QuantityAvailable" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetAvailableMovies" FunctionName="TicoCinemaModel.Store.sp_GetAvailableMovies">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="TicoCinemaModel.sp_GetAvailableMovies_Result">
+                <ScalarProperty Name="CinemaScheduleId" ColumnName="CinemaScheduleId" />
+                <ScalarProperty Name="CinemaId" ColumnName="CinemaId" />
+                <ScalarProperty Name="MovieFormatId" ColumnName="MovieFormatId" />
+                <ScalarProperty Name="MovieId" ColumnName="MovieId" />
+                <ScalarProperty Name="BeginDatetime" ColumnName="BeginDatetime" />
+                <ScalarProperty Name="FinishDatetime" ColumnName="FinishDatetime" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

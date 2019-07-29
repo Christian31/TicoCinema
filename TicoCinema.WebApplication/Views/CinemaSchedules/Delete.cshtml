@@ -12,6 +12,30 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            @Html.DisplayNameFor(model => model.Movie.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Movie.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Cinema.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Cinema.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MovieFormat.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MovieFormat.Name)
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.BeginDatetime)
         </dt>
 
@@ -25,30 +49,6 @@
 
         <dd>
             @Html.DisplayFor(model => model.FinishDatetime)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Cinema.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Cinema.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Movie.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Movie.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.MovieFormat.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.MovieFormat.Name)
         </dd>
 
     </dl>

@@ -26,7 +26,7 @@ namespace TicoCinema.WebApplication.Models
         [Display(Name = "Audiencia permitida")]
         public int AudienceClassificationId { get; set; }
 
-        [Display(Name = "Nombre")]
+        [Display(Name = "Nombre de película")]
         public string Name { get; set; }
 
         [Display(Name = "Fecha de estreno")]

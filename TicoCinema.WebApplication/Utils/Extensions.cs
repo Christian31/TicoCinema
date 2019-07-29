@@ -11,5 +11,10 @@ namespace TicoCinema.WebApplication.Utils
         {
             return dateToCheck >= startDate && dateToCheck < endDate;
         }
+
+        public static bool IsInSameDay(this DateTime dateToCheck, DateTime date)
+        {
+            return dateToCheck.Date == date.Date && dateToCheck < date;
+        }
     }
 }

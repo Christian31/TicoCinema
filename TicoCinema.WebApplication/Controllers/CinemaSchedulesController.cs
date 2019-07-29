@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -49,7 +50,7 @@ namespace TicoCinema.WebApplication.Controllers
         {
             if (ModelState.IsValid)
             {
-                CinemaSchedulerManager.SaveCinemaScheduler(cinemaSchedule);
+                CinemaSchedulerManager.SaveCinemaSchedules(cinemaSchedule, User.Identity.GetUserName());
                 return RedirectToAction("Index");
             }
 
@@ -93,7 +94,7 @@ namespace TicoCinema.WebApplication.Controllers
             {
                 return HttpNotFound();
             }
-            if(cinemaSchedule.CinemaScheduleHistory.Count > 0)
+            if(cinemaSchedule.CinemaScheduleHistory.Where(t => t.TicketId !=0).Count() > 0)
             {
                 return RedirectToAction("Index");
             }

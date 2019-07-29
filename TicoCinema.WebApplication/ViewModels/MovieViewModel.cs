@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Web;
+using System.Web.Mvc;
 
 namespace TicoCinema.WebApplication.ViewModels
 {
@@ -32,9 +34,13 @@ namespace TicoCinema.WebApplication.ViewModels
 
         [Display(Name = "Imagen")]
         public string ImagePath { get; set; }
-
-        [Required(ErrorMessage = "El campo {0} es requerido.")]
+        
         [Display(Name = "Imagen")]
         public HttpPostedFileBase UploadedFile { get; set; }
+
+        [Display(Name = "Categorias")]
+        public IList<SelectListItem> Categories { get; set; }
+
+        public IList<string> SelectedCategories { get; set; }
     }
 }

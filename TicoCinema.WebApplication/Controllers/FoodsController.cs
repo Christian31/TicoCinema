@@ -106,7 +106,10 @@ namespace TicoCinema.WebApplication.Controllers
 
             if (ModelState.IsValid)
             {
-                food.ImagePath = FileManager.ReplaceFoodImage(food.FoodName, food.UploadedFile, food.ImagePath);
+                if (food.UploadedFile != null)
+                {
+                    food.ImagePath = FileManager.ReplaceFoodImage(food.FoodName, food.UploadedFile, food.ImagePath);
+                }
                 Food dbFood = ConvertViewModelToFood(food);
 
                 db.Entry(dbFood).State = EntityState.Modified;

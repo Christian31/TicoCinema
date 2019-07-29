@@ -1,9 +1,14 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using TicoCinema.WebApplication.Models;
+using TicoCinema.WebApplication.Utils;
 using TicoCinema.WebApplication.ViewModels;
 
 namespace TicoCinema.WebApplication.Controllers
@@ -13,6 +18,8 @@ namespace TicoCinema.WebApplication.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+
+        private Entities db = new Entities();
 
         public ManageController()
         {
@@ -50,7 +57,7 @@ namespace TicoCinema.WebApplication.Controllers
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        public ActionResult Index(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Su contraseña ha sido cambiada."
@@ -59,15 +66,52 @@ namespace TicoCinema.WebApplication.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
-            var model = new IndexViewModel
+            var user = db.User.Find(new Guid(userId));
+
+            if(user != null)
             {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
-            };
-            return View(model);
+                var model = new IndexViewModel
+                {
+                    Categories = GetCategoriesViewModels(user.CategoryPreferences),
+                };
+                return View(model);
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Index(IndexViewModel indexViewModel)
+        {
+            var userId = User.Identity.GetUserId();
+            var user = db.User.Find(new Guid(userId));
+            if (user != null)
+            {
+                var categoriesSelected = db.MovieCategory.
+                    Where(item => indexViewModel.SelectedCategories.Contains(item.CategoryId.ToString())).
+                    Select(item => item.BitAssigned).ToList();
+
+                user.CategoryPreferences = BitManager.GetBitsSum(categoriesSelected);
+                db.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            return View(indexViewModel);
+        }
+        private IList<SelectListItem> GetCategoriesViewModels(long categoriesSelected)
+        {
+            List<SelectListItem> categoriesViewModels = new List<SelectListItem>();
+            var movieCategories = db.MovieCategory.ToList();
+            foreach (var item in movieCategories)
+            {
+                categoriesViewModels.Add(new SelectListItem()
+                {
+                    Text = item.CategoryName,
+                    Value = item.CategoryId.ToString(),
+                    Selected = BitManager.ContainsBit(categoriesSelected, item.BitAssigned)
+                });
+            }
+
+            return categoriesViewModels;
         }
 
         //
@@ -183,16 +227,6 @@ namespace TicoCinema.WebApplication.Controllers
             {
                 ModelState.AddModelError("", error);
             }
-        }
-
-        private bool HasPassword()
-        {
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            if (user != null)
-            {
-                return user.PasswordHash != null;
-            }
-            return false;
         }
 
         public enum ManageMessageId

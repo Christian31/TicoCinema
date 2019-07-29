@@ -11,7 +11,8 @@ namespace TicoCinema.WebApplication.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Cinema
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -22,6 +23,8 @@ namespace TicoCinema.WebApplication.Models
     
         public int CinemaId { get; set; }
         public int MovieFormatId { get; set; }
+
+        [Display(Name = "Nombre de sala")]
         public string Name { get; set; }
         public int Capacity { get; set; }
         public int CinemaDesignId { get; set; }

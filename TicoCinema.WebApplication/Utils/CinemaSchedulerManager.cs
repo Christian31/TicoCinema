@@ -11,7 +11,7 @@ namespace TicoCinema.WebApplication.Utils
     {
         private static Entities db = new Entities();
 
-        public static void SaveCinemaScheduler(CinemaScheduleViewModel cinemaSchedule)
+        public static void SaveCinemaSchedules(CinemaScheduleViewModel cinemaSchedule, string userName)
         {
             Movie movie = db.Movie.Find(cinemaSchedule.MovieId);
 
@@ -23,6 +23,20 @@ namespace TicoCinema.WebApplication.Utils
                 IList<CinemaSchedule> cinemaSchedules;
                 cinemaSchedules = GenerateCinemaSchedules(cinemaSchedule, dateTimes, (int)movie.DurationTime.TotalMinutes);
                 db.CinemaSchedule.AddRange(cinemaSchedules);
+                db.SaveChanges();
+
+                foreach (var schedule in cinemaSchedules)
+                {
+                    db.CinemaScheduleHistory.Add(new CinemaScheduleHistory() {
+                        CinemaScheduleId = schedule.CinemaScheduleId,
+                        CinemaScheduleState = 1,
+                        Description = "Se crea nueva cartelera",
+                        JsonDetails = "",
+                        ModificationDate = DateTime.Now,
+                        TicketId = 0,
+                        UserName = userName
+                    });
+                }
                 db.SaveChanges();
             }
         }

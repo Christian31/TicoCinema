@@ -46,5 +46,10 @@ namespace TicoCinema.WebApplication.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetFoodInventary_Result>("sp_GetFoodInventary");
         }
+    
+        public virtual ObjectResult<sp_GetAvailableMovies_Result> sp_GetAvailableMovies()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAvailableMovies_Result>("sp_GetAvailableMovies");
+        }
     }
 }

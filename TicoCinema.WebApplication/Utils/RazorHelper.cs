@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
@@ -31,6 +32,12 @@ namespace TicoCinema.WebApplication.Utils
         public static string GetRestrictionFormat(this int restriction)
         {
             return restriction == 0 ? "Sin restricción" : string.Format("Mayores de {0} años", restriction);
+        }
+
+        public static string GetCategoriesSelectedFormat(this IList<SelectListItem> categories)
+        {
+            var selectedCategories = categories.Where(item => item.Selected).ToList();
+            return selectedCategories.Count() == 0 ? "Sin categorias" : string.Join(" - ", selectedCategories.Select(item => item.Text).ToList());
         }
     }
 }

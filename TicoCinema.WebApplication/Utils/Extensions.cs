@@ -12,9 +12,18 @@ namespace TicoCinema.WebApplication.Utils
             return dateToCheck >= startDate && dateToCheck < endDate;
         }
 
-        public static bool IsInSameDay(this DateTime dateToCheck, DateTime date)
+        public static bool IsInSameWeek(this DateTime dateToCheck, DateTime date)
         {
-            return dateToCheck.Date == date.Date && dateToCheck < date;
+            return (dateToCheck.Date - date).TotalDays < 7;
+        }
+
+        public static int GetYearsBetweenDateAndNow(this DateTime date)
+        {
+            DateTime today = DateTime.Today;
+            int age = today.Year - date.Year;
+            if (date > today.AddYears(-age))
+                age--;
+            return age;
         }
     }
 }

@@ -182,7 +182,9 @@ namespace TicoCinema.WebApplication.Controllers
         {
             Movie movie = db.Movie.Find(id);
             db.Movie.Remove(movie);
+            db.CinemaSchedule.RemoveRange(movie.CinemaSchedule);
             db.SaveChanges();
+
             FileManager.DeleteMovieImage(movie.ImagePath);
 
             return RedirectToAction("Index");

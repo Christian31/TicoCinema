@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Objects;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using TicoCinema.WebApplication.Models;
 using TicoCinema.WebApplication.Utils;
@@ -12,14 +11,67 @@ namespace TicoCinema.WebApplication.Controllers
 {
     public class HomeController : Controller
     {
+        private const string cinemasAvailableKey = "CINEMASAVAILABLE-01";
         private Entities db = new Entities();
 
         public ActionResult Index()
         {
             var cinemas = db.sp_GetAvailableMovies().
-                Where(item => item.BeginDatetime.IsInSameDay(DateTime.Now)).ToList();
-            var cinemasAvailable = ConvertMoviesToViewModels(cinemas);
-            return View(cinemasAvailable);
+                Where(item => item.BeginDatetime.IsInSameWeek(DateTime.Now)).ToList();
+            List<AvailableMovieViewModel> cinemasAvailable = ConvertMoviesToViewModels(cinemas);
+
+            if (HttpContext.KeyExistsOnCache(cinemasAvailableKey))
+                HttpContext.RemoveValuesFromCache(cinemasAvailableKey);
+
+            HttpContext.AddValuesToCache(cinemasAvailableKey, cinemasAvailable);
+
+            if(TempData["MessageValidation"] != null)
+            {
+                ViewBag.MessageValidation = (string)TempData["MessageValidation"];
+            }
+
+            CinemaAvailableViewModel moviesAvailable = new CinemaAvailableViewModel()
+            {
+                AvailableMovies = cinemasAvailable,
+                Recomendations = GetRecomendations()
+            };
+            return View(moviesAvailable);
+        }
+
+        private List<MovieRecomendationViewModel> GetRecomendations()
+        {
+            List<MovieRecomendationViewModel> recomendations = new List<MovieRecomendationViewModel>();
+            List<AvailableMovieViewModel> cinemasAvailable = (List<AvailableMovieViewModel>)HttpContext.GetValuesFromCache(cinemasAvailableKey);
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = User.Identity.GetUserId();
+                var user = db.User.Find(new Guid(userId));
+
+                if (user != null && user.CategoryPreferences != 0)
+                {
+                    foreach (var item in cinemasAvailable)
+                    {
+                        if (BitManager.ContainsBit(user.CategoryPreferences, item.Category))
+                        {
+                            recomendations.Add(new MovieRecomendationViewModel() { MovieImagePath = item.MovieImagePath, MovieName = item.MovieName });
+                        }
+                        if (recomendations.Count == 3)
+                            break;
+                    }
+                }
+            }
+
+            if (recomendations.Count == 0)
+            {
+                foreach (var item in cinemasAvailable)
+                {
+                    recomendations.Add(new MovieRecomendationViewModel() { MovieImagePath = item.MovieImagePath, MovieName = item.MovieName });
+                    if (recomendations.Count == 3)
+                        break;
+                }
+            }
+
+            return recomendations;
         }
 
         private List<AvailableMovieViewModel> ConvertMoviesToViewModels(List<sp_GetAvailableMovies_Result> cinemas)
@@ -41,7 +93,8 @@ namespace TicoCinema.WebApplication.Controllers
                         AudienceClassificationId = movie.AudienceClassificationId,
                         DurationTime = movie.DurationTime.TotalMinutes.ToString(),
                         MovieImagePath = FileManager.GetMovieImagePath(movie.ImagePath),
-                        MovieName = movie.Name
+                        MovieName = movie.Name,
+                        Category = movie.CategoriesAssigned
                     };
                     cinemaAvailable.Schedules = GetSchedules(cinema.Value, movieFormats);
                     moviesViewModels.Add(cinemaAvailable);

@@ -261,6 +261,7 @@
     <Compile Include="ViewModels\AudienceClassificationViewModels.cs" />
     <Compile Include="ViewModels\AvailableMovieViewModel.cs" />
     <Compile Include="ViewModels\CinemaScheduleViewModel.cs" />
+    <Compile Include="ViewModels\CinemaServiceViewModels.cs" />
     <Compile Include="ViewModels\CinemaViewModel.cs" />
     <Compile Include="ViewModels\DirectionViewModels.cs" />
     <Compile Include="ViewModels\FoodInventaryViewModel.cs" />
@@ -409,6 +410,7 @@
     <Content Include="Views\CinemaSchedules\Details.cshtml" />
     <Content Include="Views\CinemaSchedules\Index.cshtml" />
     <Content Include="Views\CinemaService\Create.cshtml" />
+    <Content Include="Views\CinemaService\CreateStep2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

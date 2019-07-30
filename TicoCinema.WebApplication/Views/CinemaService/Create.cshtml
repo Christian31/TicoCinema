@@ -1,4 +1,4 @@
-﻿@model TicoCinema.WebApplication.Models.Movie
+﻿@model TicoCinema.WebApplication.ViewModels.CinemaServiceStep1
 
 @{
     ViewBag.Title = "Create";
@@ -7,72 +7,79 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm()) 
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>Movie</h4>
-        <hr />
-        @Html.ValidationSummary(true)
-        <div class="form-group">
-            @Html.LabelFor(model => model.AudienceClassificationId, "AudienceClassificationId", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownList("AudienceClassificationId", String.Empty)
-                @Html.ValidationMessageFor(model => model.AudienceClassificationId)
+<div id="heading-breadcrumbs">
+    <div class="container">
+        <div class="row d-flex align-items-center flex-wrap">
+            <div class="col-md-7">
+                <h1 class="h2">Cartelera - Compra</h1>
             </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.Name)
-                @Html.ValidationMessageFor(model => model.Name)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ReleaseDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ReleaseDate)
-                @Html.ValidationMessageFor(model => model.ReleaseDate)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.DurationTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.DurationTime)
-                @Html.ValidationMessageFor(model => model.DurationTime)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.CategoriesAssigned, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.CategoriesAssigned)
-                @Html.ValidationMessageFor(model => model.CategoriesAssigned)
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.ImagePath, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.ImagePath)
-                @Html.ValidationMessageFor(model => model.ImagePath)
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="col-md-5">
+                <ul class="breadcrumb d-flex justify-content-end">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">Inicio</a></li>
+                    <li class="breadcrumb-item active">Cartelera - Compra</li>
+                </ul>
             </div>
         </div>
     </div>
-}
+</div>
+<div id="content">
+    <div class="container">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
 
-<div>
-    @Html.ActionLink("Back to List", "Index")
+            @Html.HiddenFor(model => Model.MovieFormatId)
+            @Html.HiddenFor(model => Model.CinemaScheduleId)
+            <div class="row">
+                <div id="checkout" class="col-lg-12">
+                    <div class="box border-bottom-0">
+                        <form method="get" action="shop-checkout2.html">
+                            <ul class="nav nav-pills nav-fill">
+                                <li class="nav-item"><a href="javascript: void(0)" class="nav-link active"> <i class="fa fa-street-view"></i><br>Cantidad de entradas</a></li>
+                                <li class="nav-item"><a href="javascript: void(0)" class="nav-link disabled"><i class="fa fa-ticket"></i><br>Escoger asientos</a></li>
+                                <li class="nav-item"><a href="javascript: void(0)" class="nav-link disabled"><i class="fa fa-shopping-bag"></i><br>Agregar comidas</a></li>
+                                <li class="nav-item"><a href="javascript: void(0)" class="nav-link disabled"><i class="fa fa-money"></i><br>Forma de pago</a></li>
+                                <li class="nav-item"><a href="javascript: void(0)" class="nav-link disabled"><i class="fa fa-eye"></i><br>Confirmar orden</a></li>
+                            </ul>
+                            <div class="content">
+                                @for (int i = 0; i < Model.FormatQuantities.Count; i++)
+                                {
+                                    @Html.HiddenFor(model => Model.FormatQuantities[i].MovieFormatName)
+                                    @Html.HiddenFor(model => Model.FormatQuantities[i].Price)
+                                    <div class="row">
+                                        <div class="form-group col-md-4">
+                                            <div class="col-md-10 text-center">
+                                                <b>@Html.DisplayNameFor(modelItem => Model.FormatQuantities[i].MovieFormatName)</b>
+                                                @Html.DisplayFor(modelItem => Model.FormatQuantities[i].MovieFormatName)
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <div class="col-md-4 text-center" style="align-items: center">
+                                                <b>@Html.DisplayNameFor(modelItem => Model.FormatQuantities[i].Quantity)</b>
+                                                @Html.TextBoxFor(modelItem => Model.FormatQuantities[i].Quantity, new { @class = "form-control" })
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-4">
+                                            <div class="col-md-10 text-center">
+                                                <b>@Html.DisplayNameFor(modelItem => Model.FormatQuantities[i].Price)</b>
+                                                @Html.DisplayFor(modelItem => Model.FormatQuantities[i].Price)
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="box-footer d-flex flex-wrap align-items-center justify-content-between">
+                                <div class="left-col"><a href="@Url.Action("Index", "Home")" class="btn btn-secondary mt-0"><i class="fa fa-chevron-left"></i>Cancelar</a></div>
+                                <div class="right-col">
+                                    <button type="submit" class="btn btn-template-main">Escoger asientos<i class="fa fa-chevron-right"></i></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
 
 @section Scripts {

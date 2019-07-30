@@ -7,6 +7,7 @@ using TicoCinema.WebApplication.ViewModels;
 
 namespace TicoCinema.WebApplication.Controllers
 {
+    [Authorize]
     public class AudienceClassificationsController : Controller
     {
         private Entities db = new Entities();

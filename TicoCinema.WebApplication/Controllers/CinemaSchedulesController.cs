@@ -13,6 +13,7 @@ using TicoCinema.WebApplication.ViewModels;
 
 namespace TicoCinema.WebApplication.Controllers
 {
+    [Authorize]
     public class CinemaSchedulesController : Controller
     {
         private Entities db = new Entities();

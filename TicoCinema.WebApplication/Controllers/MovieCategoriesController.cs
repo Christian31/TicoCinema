@@ -9,6 +9,7 @@ using TicoCinema.WebApplication.Utils;
 
 namespace TicoCinema.WebApplication.Controllers
 {
+    [Authorize]
     public class MovieCategoriesController : Controller
     {
         private Entities db = new Entities();

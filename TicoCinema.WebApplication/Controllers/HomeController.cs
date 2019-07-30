@@ -25,7 +25,7 @@ namespace TicoCinema.WebApplication.Controllers
 
             HttpContext.AddValuesToCache(cinemasAvailableKey, cinemasAvailable);
 
-            if(TempData["MessageValidation"] != null)
+            if (TempData["MessageValidation"] != null)
             {
                 ViewBag.MessageValidation = (string)TempData["MessageValidation"];
             }
@@ -81,24 +81,21 @@ namespace TicoCinema.WebApplication.Controllers
             var cinemasGroupByMovie = cinemas.GroupBy(item => item.MovieId).
                 ToDictionary(item => item.Key, item => item.ToList());
 
-            foreach (var cinemaGroupByMovie in cinemasGroupByMovie)
+            foreach (var cinema in cinemasGroupByMovie)
             {
-                foreach (var cinema in cinemasGroupByMovie)
+                var movie = db.Movie.Find(cinema.Key);
+                var cinemaAvailable = new AvailableMovieViewModel
                 {
-                    var movie = db.Movie.Find(cinema.Key);
-                    var cinemaAvailable = new AvailableMovieViewModel
-                    {
-                        MovieId = movie.MovieId,
-                        AudienceClassificationName = movie.AudienceClassification.Acronym,
-                        AudienceClassificationId = movie.AudienceClassificationId,
-                        DurationTime = movie.DurationTime.TotalMinutes.ToString(),
-                        MovieImagePath = FileManager.GetMovieImagePath(movie.ImagePath),
-                        MovieName = movie.Name,
-                        Category = movie.CategoriesAssigned
-                    };
-                    cinemaAvailable.Schedules = GetSchedules(cinema.Value, movieFormats);
-                    moviesViewModels.Add(cinemaAvailable);
-                }
+                    MovieId = movie.MovieId,
+                    AudienceClassificationName = movie.AudienceClassification.Acronym,
+                    AudienceClassificationId = movie.AudienceClassificationId,
+                    DurationTime = movie.DurationTime.TotalMinutes.ToString(),
+                    MovieImagePath = FileManager.GetMovieImagePath(movie.ImagePath),
+                    MovieName = movie.Name,
+                    Category = movie.CategoriesAssigned
+                };
+                cinemaAvailable.Schedules = GetSchedules(cinema.Value, movieFormats);
+                moviesViewModels.Add(cinemaAvailable);
             }
 
             return moviesViewModels;

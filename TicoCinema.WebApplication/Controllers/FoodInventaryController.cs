@@ -10,6 +10,7 @@ using TicoCinema.WebApplication.ViewModels;
 
 namespace TicoCinema.WebApplication.Controllers
 {
+    [Authorize]
     public class FoodInventaryController : Controller
     {
         private Entities db = new Entities();

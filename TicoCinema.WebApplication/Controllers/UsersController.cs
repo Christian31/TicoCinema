@@ -15,6 +15,7 @@ using TicoCinema.WebApplication.ViewModels;
 
 namespace TicoCinema.WebApplication.Controllers
 {
+    [Authorize]
     public class UsersController : Controller
     {
         private ApplicationUserManager _userManager;

@@ -10,6 +10,7 @@ using TicoCinema.WebApplication.Models;
 
 namespace TicoCinema.WebApplication.Controllers
 {
+    [Authorize]
     public class MovieFormatsController : Controller
     {
         private Entities db = new Entities();

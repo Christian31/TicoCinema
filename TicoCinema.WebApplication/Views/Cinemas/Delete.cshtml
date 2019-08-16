@@ -1,12 +1,11 @@
 ﻿@model TicoCinema.WebApplication.ViewModels.CinemaViewModel
-
 @{
     ViewBag.Title = "Delete";
 }
 
 <h2>Delete</h2>
 
-<h3>Are you sure you want to delete this?</h3>
+<h3>Está seguro que desea eliminar este elemento?</h3>
 <div>
     <h4>Cinema</h4>
     <hr />
@@ -28,19 +27,19 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CinemaDesignId)
+            @Html.DisplayNameFor(model => model.CinemaDesignName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CinemaDesignId)
+            @Html.DisplayFor(model => model.CinemaDesignName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.MovieFormat.Name)
+            @Html.DisplayNameFor(model => model.MovieFormatName)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.MovieFormat.Name)
+            @Html.DisplayFor(model => model.MovieFormatName)
         </dd>
 
     </dl>
@@ -50,7 +49,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Volver a la lista", "Index")
         </div>
     }
 </div>

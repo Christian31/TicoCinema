@@ -23,8 +23,8 @@
         <dl class="dl-horizontal">
             <dt>Preferencias:</dt>
             <dd>
-                <div class="form-group">
-                    <div class="col-md-10">
+                <div class="form-group col-md-6">
+                    <div class="col-md-8">
                         @using (Html.BeginForm())
                         {
                             foreach (var category in Model.Categories)
@@ -39,7 +39,7 @@
                             }
                             @Html.ValidationMessageFor(model => model.Categories, "", new { @class = "text-danger" })
                             <br />
-                            <div class="form-group">
+                            <div class="form-group col-md-6">
                                 <div class="col-md-offset-2 col-md-10">
                                     <input type="submit" value="Save" class="btn btn-default" />
                                 </div>

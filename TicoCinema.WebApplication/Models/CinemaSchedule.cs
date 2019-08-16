@@ -11,7 +11,8 @@ namespace TicoCinema.WebApplication.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class CinemaSchedule
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,7 +25,11 @@ namespace TicoCinema.WebApplication.Models
         public int CinemaId { get; set; }
         public int MovieFormatId { get; set; }
         public int MovieId { get; set; }
+
+        [Display(Name = "Fecha de inicio")]
         public System.DateTime BeginDatetime { get; set; }
+
+        [Display(Name = "Fecha final")]
         public System.DateTime FinishDatetime { get; set; }
     
         public virtual Cinema Cinema { get; set; }

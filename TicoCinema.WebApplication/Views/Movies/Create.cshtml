@@ -1,5 +1,4 @@
 ﻿@model TicoCinema.WebApplication.ViewModels.MovieViewModel
-
 @{
     ViewBag.Title = "Create";
 }
@@ -14,74 +13,76 @@
     <div class="form-horizontal">
         <h4>Movie</h4>
         <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            @Html.LabelFor(model => model.AudienceClassificationId, "Clasificación de la audiencia", htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.DropDownListFor(m => m.AudienceClassificationId, (IEnumerable<SelectListItem>)ViewBag.AudienceClassificationId, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.AudienceClassificationId, "", new { @class = "text-danger" })
+        <div class="row">
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.AudienceClassificationId, "Clasificación de la audiencia", htmlAttributes: new { @class = "control-label col-md-8" })
+                <div class="col-md-8">
+                    @Html.DropDownListFor(m => m.AudienceClassificationId, (IEnumerable<SelectListItem>)ViewBag.AudienceClassificationId, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.AudienceClassificationId, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-8" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.ReleaseDate, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.ReleaseDate, new { @class = "form-control datepicker" })
-                @Html.ValidationMessageFor(model => model.ReleaseDate, "", new { @class = "text-danger" })
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.ReleaseDate, htmlAttributes: new { @class = "control-label col-md-8" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(model => model.ReleaseDate, new { @class = "form-control datepicker" })
+                    @Html.ValidationMessageFor(model => model.ReleaseDate, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.DurationTime, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(model => model.DurationTime, new { @class = "form-control daterange-timepicker" })
-                @Html.ValidationMessageFor(model => model.DurationTime, "", new { @class = "text-danger" })
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.DurationTime, htmlAttributes: new { @class = "control-label col-md-8" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(model => model.DurationTime, new { @class = "form-control daterange-timepicker" })
+                    @Html.ValidationMessageFor(model => model.DurationTime, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.UploadedFile, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                <input type="file" id="UploadedFile" name="UploadedFile" class="form-control" />
-                @Html.ValidationMessageFor(model => model.UploadedFile, "", new { @class = "text-danger" })
+            <div class="form-group col-md-6">
+                @Html.LabelFor(model => model.UploadedFile, htmlAttributes: new { @class = "control-label col-md-8" })
+                <div class="col-md-8">
+                    <input type="file" id="UploadedFile" name="UploadedFile" class="form-control" />
+                    @Html.ValidationMessageFor(model => model.UploadedFile, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.Categories, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @foreach (var category in Model.Categories)
-                {
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox" name="SelectedCategories" value="@category.Value"
-                                   @if (category.Selected) { <text> checked </text> } /> 
-                            @category.Text
+            <div class="form-group col-md-12">
+                @Html.LabelFor(model => model.Categories, htmlAttributes: new { @class = "control-label col-md-8" })
+                <div class="col-md-8">
+                    @foreach (var category in Model.Categories)
+                    {
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="SelectedCategories" value="@category.Value"
+                                       @if (category.Selected) { <text> checked </text> } />
+                                @category.Text
                             </label>
                         </div>
                     }
-                @Html.ValidationMessageFor(model => model.Categories, "", new { @class = "text-danger" })
+                    @Html.ValidationMessageFor(model => model.Categories, "", new { @class = "text-danger" })
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="form-group col-md-12">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Create" class="btn btn-default" />
+                </div>
             </div>
         </div>
     </div>
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink("Volver a la lista", "Index")
 </div>
 
 @section Scripts {

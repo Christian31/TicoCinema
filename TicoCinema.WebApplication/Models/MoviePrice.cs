@@ -11,11 +11,16 @@ namespace TicoCinema.WebApplication.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class MoviePrice
     {
         public int MovieFormatId { get; set; }
+
+        [Display(Name = "Precio")]
         public decimal Price { get; set; }
+
+        [Display(Name = "Tipo de entrada")]
         public string Name { get; set; }
     
         public virtual MovieFormat MovieFormat { get; set; }

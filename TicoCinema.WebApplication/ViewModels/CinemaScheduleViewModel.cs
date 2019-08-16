@@ -27,7 +27,7 @@ namespace TicoCinema.WebApplication.ViewModels
         public System.TimeSpan BeginTime { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es requerido.")]
-        [Display(Name = "Rango (en horas) para calendarizar múltiples tandas diarias")]
+        [Display(Name = "Rango (en horas) para calendarización múltiple")]
         public Utils.Enums.HoursRange HoursRange { get; set; }
 
         [Required(ErrorMessage = "El campo {0} es requerido.")]
